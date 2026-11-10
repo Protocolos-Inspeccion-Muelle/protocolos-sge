@@ -50,7 +50,12 @@ table.cmp th{background:#eef4f4;padding:5px;border:1px solid var(--line);font-si
 table.cmp td{border:1px solid var(--line);padding:0 3px}
 .addrow{margin-top:6px;background:#fff;border:1px dashed var(--teal);color:var(--teal);border-radius:4px;padding:5px 10px;cursor:pointer}
 .firmas{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-.firmas div{border-top:1px solid var(--ink);padding-top:4px;font-size:11px;color:var(--mut);text-align:center;margin-top:40px}
+.fb2 label{font-size:11px;color:var(--mut);display:flex;flex-direction:column;gap:2px}
+.fb2 canvas{width:100%;height:110px;border:1px dashed var(--line);border-radius:4px;touch-action:none;background:#fff;margin-top:6px;display:block}
+.fl{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--ink);padding-top:3px;font-size:11px;color:var(--mut)}
+.fl button{border:0;background:none;color:var(--teal);cursor:pointer;font-size:11px}
+.fb textarea{font-weight:normal}
+@media print{.fb2 canvas{border:0}}
 table.hist{width:100%;border-collapse:collapse;font-size:12px}
 table.hist th,table.hist td{border:1px solid var(--line);padding:5px}
 table.hist th{background:#eef4f4}
@@ -100,7 +105,10 @@ table.hist th{background:#eef4f4}
  <div class="fb" style="grid-template-columns:1fr"><label>Control y seguimiento de compromisos anteriores<textarea data-k="cant" rows="2"></textarea></label></div>
  <table class="cmp"><thead><tr><th style="width:42%">Nuevo compromiso</th><th>Responsable</th><th style="width:16%">Fecha</th><th style="width:10%">¿RdP?</th><th class="noprint" style="width:4%"></th></tr></thead><tbody id="cmp"></tbody></table>
  <button class="addrow noprint" onclick="addCmp()">+ Agregar compromiso</button>
- <div class="firmas"><div>Observador (nombre y firma)</div><div>Observado (nombre y firma)</div></div>
+ <div class="firmas">
+  <div class="fb2"><label>Observador (nombre y cargo)<input data-k="fn_obs"></label><canvas id="sg_obs" width="600" height="160"></canvas><div class="fl"><span>Firma observador</span><button class="noprint" onclick="borraFirma('obs')">Borrar firma</button></div></div>
+  <div class="fb2"><label>Observado (nombre y cargo)<input data-k="fn_obd"></label><canvas id="sg_obd" width="600" height="160"></canvas><div class="fl"><span>Firma observado</span><button class="noprint" onclick="borraFirma('obd')">Borrar firma</button></div></div>
+ </div>
 
  <h2 class="noprint">HISTORIAL DE CdP EN ESTE DISPOSITIVO</h2>
  <div class="noprint"><p class="small">Cada CdP guardada queda en este teléfono o PC. Exporta el historial a Excel para llevarlo al foro de desempeño o al KPI de adherencia.</p>
@@ -150,10 +158,18 @@ function csv(){const H=getH();if(!H.length){alert('El historial está vacío.');
  const rows=H.map(h=>[...cols.map(c=>h[c]),...h.notas.map(n=>n??'')]);
  const t='﻿'+[head,...rows].map(r=>r.map(x=>'"'+String(x??'').replace(/"/g,'""')+'"').join(';')).join('\r\n');
  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/csv'}));a.download='Historial_CdP_Muelle.csv';a.click()}
+function pad(k){const cv=document.getElementById('sg_'+k),c=cv.getContext('2d');S.sig=S.sig||{};
+ if(S.sig[k]){const im=new Image();im.onload=()=>c.drawImage(im,0,0);im.src=S.sig[k]}
+ c.lineWidth=2.5;c.lineCap='round';c.strokeStyle='#0a2a6b';let on=false;
+ const P=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)*cv.width/r.width,(e.clientY-r.top)*cv.height/r.height]};
+ cv.addEventListener('pointerdown',e=>{on=true;cv.setPointerCapture(e.pointerId);const[x,y]=P(e);c.beginPath();c.moveTo(x,y)});
+ cv.addEventListener('pointermove',e=>{if(!on)return;const[x,y]=P(e);c.lineTo(x,y);c.stroke()});
+ const fin=()=>{if(!on)return;on=false;S.sig[k]=cv.toDataURL();save()};cv.addEventListener('pointerup',fin);cv.addEventListener('pointerleave',fin)}
+function borraFirma(k){const cv=document.getElementById('sg_'+k);cv.getContext('2d').clearRect(0,0,cv.width,cv.height);if(S.sig)delete S.sig[k];save()}
 function nuevo(){if(!confirm('¿Comenzar una CdP nueva? Se borra la actual (el historial se mantiene).'))return;S={f:{},n:{},c:[]};save();location.reload()}
 if(!S.f.fecha){const d=new Date();S.f.fecha=new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)}
 if(!S.c.length)S.c=[['','','','']];
-bind();render();
+bind();render();['obs','obd'].forEach(pad);
 </script>
 </body>
 </html>
