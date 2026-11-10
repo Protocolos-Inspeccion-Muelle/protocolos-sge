@@ -35,7 +35,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-bottom:2px solid var
 .tools input[type=file]{display:none}
 /* resumen */
 .res{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:14px}
-.res div{border:1px solid var(--line);border-left:4px solid var(--teal);padding:6px 8px;font-size:11px}
+.res>div{border:1px solid var(--line);border-left:4px solid var(--teal);padding:6px 8px;font-size:11px}
 .res b{display:block;font-size:13px}
 .res .bar2{height:5px;background:#e3e8ea;margin-top:4px}
 .res .bar2 i{display:block;height:100%;background:var(--teal)}
@@ -89,7 +89,7 @@ textarea{border:1px solid var(--line);min-height:70px;padding:6px}
 .dict{display:flex;gap:10px;flex-wrap:wrap;align-items:center;border:1px solid var(--ink);padding:8px 10px;margin-bottom:10px}
 .dict label{display:flex;gap:5px;align-items:center;font-weight:bold;font-size:13px}
 .dict input{width:auto}
-@media (max-width:700px){
+@media screen and (max-width:700px){
   .hdr{grid-template-columns:1fr}.hdr .logo,.hdr .cod{border:0}
   .ficha{grid-template-columns:1fr 1fr}.ficha label.w4{grid-column:span 2}
   .chk td.ob{display:block;width:auto;border-top:0}
@@ -115,6 +115,8 @@ textarea{border:1px solid var(--line);min-height:70px;padding:6px}
   .sec{break-inside:auto}.sec h2,.sub{break-after:avoid}
   tr{break-inside:avoid}
   .firmas,.dict{break-inside:avoid}
+  .res>div,.kpi,.hdr,.ficha label{break-inside:avoid}
+  .chk tr.sub,.chk tr.sub td{break-after:avoid}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   ::placeholder{color:transparent!important}
   input::-webkit-calendar-picker-indicator{display:none}
@@ -136,6 +138,12 @@ textarea{border:1px solid var(--line);min-height:70px;padding:6px}
 @media screen and (max-width:820px){.sge .g{grid-template-columns:1fr 1fr}.sge label.w4,.sge label.w2{grid-column:span 2}}
 @media print{.sge{break-inside:avoid}}
 .sge .pv{display:none;white-space:pre-wrap;font-size:12px;color:#0a2a6b;padding:2px}@media print{.sge textarea{display:none}.sge .pv{display:block}}
+.kpi{display:grid;grid-template-columns:repeat(6,1fr);border:1px solid var(--ink);margin:0 0 10px;background:#fff}
+.kpi>div{padding:6px 8px;border-right:1px solid var(--line);font-size:10.5px;color:var(--mut)}.kpi>div:last-child{border-right:0}
+.kpi b{display:block;font-size:17px;color:#0a2a6b}.kpi .t{grid-column:1/-1;background:#0b6e74;color:#fff;font-weight:bold;font-size:12px;padding:5px 8px;border-right:0}
+.kpi .nc b{color:#b3261e}.kpi .ok b{color:#1e8449}
+@media screen and (max-width:820px){.kpi{grid-template-columns:repeat(3,1fr)}}
+@media print{.kpi{break-inside:avoid}}
 </style>
 </head>
 <body>
@@ -195,6 +203,7 @@ var p=window.print;window.print=function(){try{if(typeof p!=='function')throw 0;
 <label class="w2">EPP requeridos<textarea data-k="sge_epp" rows="2">Casco, lentes de seguridad, zapatos de seguridad, guantes, protector auditivo, ropa con cinta reflectante, EPP para arco eléctrico según categoría del tablero, guantes dieléctricos</textarea></label><label class="w2">Herramientas y equipos<textarea data-k="sge_herr" rows="2">Multímetro, pinza amperimétrica, megóhmetro 500/1000 V, detector de tensión, cámara termográfica, candado y tarjeta personal de bloqueo</textarea></label>
 <label class="w2">Duración<input data-k="sge_dur" value="4 – 6 h (estimada; ajustar con la primera ejecución)"></label><label class="w2">Procedimiento de referencia (Centinela)<input data-k="sge_proc" value=""></label>
 </div><table><thead><tr><th style="width:50%">Evento no deseado</th><th>Estrategia de control aplicable (EdC)</th></tr></thead><tbody><tr><td><textarea data-k="sge_ev0" rows="1">Contacto eléctrico o arco eléctrico</textarea></td><td><textarea data-k="sge_edc0" rows="1">Aislamiento y bloqueo; verificación de ausencia de tensión; EPP de arco</textarea></td></tr><tr><td><textarea data-k="sge_ev1" rows="1">Partida intempestiva de motores durante pruebas</textarea></td><td><textarea data-k="sge_edc1" rows="1">Coordinación con sala de control; parada de emergencia probada</textarea></td></tr><tr><td><textarea data-k="sge_ev2" rows="1">Inducción o tensión residual en megado</textarea></td><td><textarea data-k="sge_edc2" rows="1">Descargar a tierra después de cada medición</textarea></td></tr><tr><td><textarea data-k="sge_ev3" rows="1">Caída a distinto nivel</textarea></td><td><textarea data-k="sge_edc3" rows="1">Trabajo en altura con arnés; plataformas certificadas</textarea></td></tr><tr><td><textarea data-k="sge_ev4" rows="1"></textarea></td><td><textarea data-k="sge_edc4" rows="1"></textarea></td></tr></tbody></table></div>
+  <div class="kpi" id="kpi"></div>
   <div class="res" id="res"><div><b>Tableros eléctricos (LCP, marshalling, gabinetes de control)</b>0/6 verificados<div class="bar2"><i style="width:0%"></i></div></div><div><b>Centro de Control de Motores (CCM)</b>0/6 verificados<div class="bar2"><i style="width:0%"></i></div></div><div><b>Mando y seguridad</b>0/5 verificados<div class="bar2"><i style="width:0%"></i></div></div><div><b>Pruebas eléctricas de motores</b>0/5 verificados<div class="bar2"><i style="width:0%"></i></div></div></div>
   <div id="secs"><div class="sec"><h2>1. CHECK LIST – ELÉCTRICO<small>Inspección de tableros, CCM, mando y motores</small></h2><table class="chk"><thead><tr><th>N°</th><th>Ítem de verificación</th><th>Estado</th><th>Observación</th></tr></thead><tbody><tr><td colspan="4" class="sub">1.A Tableros eléctricos (LCP, marshalling, gabinetes de control)</td></tr><tr id="r_el1" class=""><td class="n">1.1</td><td class="it">Identificación informativa, técnica y de precaución instalada y legible (TAG, tensión, riesgo eléctrico)<small>Detalle por tablero en sección 2</small></td>
     <td class="st"><button data-id="el1" data-v="OK" class="">SI</button> <button data-id="el1" data-v="NC" class="">NO</button> <button data-id="el1" data-v="NA" class="">N/A</button> <span class="blank">—</span></td>
@@ -642,12 +651,17 @@ function borraFirma(i){const cv=document.getElementById('sg'+i);cv.getContext('2
 function bindFicha(root){root.querySelectorAll('[data-k]').forEach(e=>{const k=e.dataset.k;
  if(e.type=='radio'){e.checked=S.f[k]==e.value;e.onchange=()=>{S.f[k]=e.value;save()};return}
  if(S.f[k]!==undefined)e.value=S.f[k];e.oninput=e.onchange=()=>{S.f[k]=e.value;save();pie()};});}
+function kpiBox(){try{const s=SECS[0];let n=0,tot=0,ok=0,nc=0,na=0;s.g.forEach(g=>g[1].forEach(()=>{n++;tot++;const v=S.st[s.id+n];if(v=='OK')ok++;if(v=='NC')nc++;if(v=='NA')na++;}));
+ const done=ok+nc+na,p=tot?Math.round(100*done/tot):0,pr=(S.t&&S.t.pun||[]).filter(r=>r&&r[1]);const cA=pr.filter(r=>r[3]=='A').length,cB=pr.filter(r=>r[3]=='B').length,cC=pr.filter(r=>r[3]=='C').length;
+ const dm={APTO:'Apto para operar',CONDICIONAL:'Apto con pendientes',NOAPTO:'No apto','NO APTO':'No apto'}[S.f.dict]||(S.f.dict||'Sin dictamen');
+ document.getElementById('kpi').innerHTML=`<div class="t">RESULTADO DEL PROTOCOLO (KPI)</div><div>Ítems verificados<b>${done}/${tot}</b></div><div>Avance (KPI real)<b>${p} %</b></div><div class="ok">Conformes (SÍ)<b>${ok}</b></div><div class="nc">No conformes<b>${nc}</b></div><div>No aplica (N/A)<b>${na}</b></div><div>Pendientes A/B/C<b>${cA}/${cB}/${cC}</b></div><div style="grid-column:1/-1;border-top:1px solid var(--line);font-size:12px">Dictamen: <strong style="color:#0a2a6b">${dm}</strong> · Meta: 100 % verificados y 0 pendientes categoría A</div>`;
+ localStorage.setItem('kpi_'+LS,JSON.stringify({done,tot,p,ok,nc,na,cA,cB,cC,dict:dm,fecha:S.f.fecha||'',tag:S.f.tag||'',resp:S.f.resp||'',ot:S.f.ot||''}));}catch(e){}}
 function resumen(){let tot=0,done=0,nc=0,n=0;const s=SECS[0];
  const out=s.g.map(g=>{let t=0,d=0,x=0;g[1].forEach(()=>{n++;t++;const v=S.st[s.id+n];if(v)d++;if(v=='NC')x++;});
   tot+=t;done+=d;nc+=x;const p=Math.round(100*d/t);
   return `<div><b>${g[0].replace(/^1\.[A-Z]\s*/,'')}</b>${d}/${t} verificados${x?` · <span style="color:var(--nc)">${x} NO</span>`:''}<div class="bar2"><i style="width:${p}%"></i></div></div>`}).join('');
  document.getElementById('res').innerHTML=out;
- document.getElementById('prog').textContent=`${ESPNAME}: avance ${done}/${tot} · ${nc} no conformes · guardado automático en este dispositivo`;}
+ document.getElementById('prog').textContent=`${ESPNAME}: avance ${done}/${tot} · ${nc} no conformes · guardado automático en este dispositivo`;kpiBox();}
 function pie(){document.getElementById('fpie').textContent=`${S.f.codigo||''}  ·  ${S.f.fecha||''}`}
 function numerar(){let n=1;document.querySelectorAll('.sec').forEach(sec=>{if(sec.closest('#secs'))return;const sp=sec.querySelector('h2 .num');if(sp){n++;sp.textContent=n+'. '}})}
 function marcaVacios(){document.querySelectorAll('input[type=date],input[type=time]').forEach(i=>i.classList.toggle('vacio',!i.value))}

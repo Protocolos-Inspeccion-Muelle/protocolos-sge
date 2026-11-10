@@ -91,6 +91,7 @@ table.hist th{background:#eef4f4}
   <label>Meta<input data-k="meta" value="100 %"></label>
  </div>
  <div class="link noprint" id="lnk"></div>
+ <div class="link noprint" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button class="addrow" style="margin:0" onclick="traerKPI(true)">⟳ Traer KPI del protocolo</button><span id="kpiInfo" class="small"></span></div>
  <div class="warn">Este checklist confirma la ejecución del estándar (paso a paso de la tarea) y no reemplaza al checklist CdP con ARTP.</div>
  <table class="cdp"><thead><tr><th style="width:40%">Aspecto por confirmar</th><th>Nota 0</th><th>Nota 1</th><th>Nota 2</th></tr></thead><tbody id="tb"></tbody></table>
  <div class="tot"><span>Suma: <span id="sum">0</span> / 14</span><span>Evaluación total</span><b id="pct">0 %</b></div>
@@ -142,7 +143,14 @@ function render(){
 }
 function nota(i,n){S.n[i]=S.n[i]===n?undefined:n;if(S.n[i]===undefined)delete S.n[i];save();render()}
 function addCmp(){S.c.push(['','','','']);save();render()}
-function selStd(){const s=STD.find(x=>x.c==document.getElementById('std').value);if(s){S.f.cod=s.c;document.getElementById('cod').value=s.c;save();}render()}
+function lsKey(c){const m=c.match(/EST-MUE-(ESP|FIL|TKA)-PEO-(OPE|MEC|INS|ELE|MCO)/);if(!m)return null;
+ return 'kpi_ppo_'+{ESP:'0611TK1101_v1_',FIL:'0621FL1101_v3_',TKA:'0621TKAG_v1_'}[m[1]]+{OPE:'op',MEC:'me',INS:'in',ELE:'el',MCO:'mc'}[m[2]]}
+function traerKPI(manual){const k=lsKey(S.f.std||'');const box=document.getElementById('kpiInfo');let d=null;try{d=k&&JSON.parse(localStorage.getItem(k))}catch(e){}
+ if(!d){box.innerHTML=k?'No hay datos de este protocolo en este dispositivo. Escribe el «Real» a mano: suma los recuadros «x/y verificados» del PDF del protocolo.':'';if(manual&&k)alert('Este protocolo no se ha llenado en este dispositivo.');return}
+ box.innerHTML=`Protocolo en este dispositivo (${d.fecha||'sin fecha'}): <b>${d.done}/${d.tot} verificados (${d.p} %)</b> · ${d.nc} no conformes · ${d.na} N/A · pendientes A/B/C ${d.cA}/${d.cB}/${d.cC} · dictamen: <b>${d.dict}</b>`;
+ const set=(k2,v)=>{S.f[k2]=v;const e=document.querySelector('[data-k='+k2+']');if(e)e.value=v};
+ if(manual||!S.f.real)set('real',d.p+' %');if(d.tag&&(manual||!S.f.tag))set('tag',d.tag);if(d.resp&&(manual||!S.f.lider))set('lider',d.resp);save()}
+function selStd(){const s=STD.find(x=>x.c==document.getElementById('std').value);if(s){S.f.cod=s.c;document.getElementById('cod').value=s.c;save();}render();traerKPI(false)}
 function bind(){document.querySelectorAll('[data-k]').forEach(e=>{const k=e.dataset.k;if(S.f[k]!==undefined)e.value=S.f[k];else if(e.value)S.f[k]=e.value;e.addEventListener('input',()=>{S.f[k]=e.value;save()});e.addEventListener('change',()=>{S.f[k]=e.value;save()})})}
 function recoTxt(p){return p<50?'Gatillar acción de mejora o RdP':p<=90?'Mantener CdP en agenda':'Estándar adoptado'}
 function getH(){try{return JSON.parse(localStorage.getItem(LH))||[]}catch(e){return[]}}
@@ -169,7 +177,7 @@ function borraFirma(k){const cv=document.getElementById('sg_'+k);cv.getContext('
 function nuevo(){if(!confirm('¿Comenzar una CdP nueva? Se borra la actual (el historial se mantiene).'))return;S={f:{},n:{},c:[]};save();location.reload()}
 if(!S.f.fecha){const d=new Date();S.f.fecha=new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)}
 if(!S.c.length)S.c=[['','','','']];
-bind();render();['obs','obd'].forEach(pad);
+bind();render();['obs','obd'].forEach(pad);traerKPI(false);
 </script>
 </body>
 </html>
