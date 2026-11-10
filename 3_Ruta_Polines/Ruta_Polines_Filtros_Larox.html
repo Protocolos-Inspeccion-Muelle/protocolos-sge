@@ -1,0 +1,1493 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ruta semanal polines – Filtros Larox</title>
+<style>
+:root{--teal:#0b6e74;--orange:#e8772e;--ink:#1d2327;--mut:#5f6b73;--line:#cfd6db;--bg:#f3f5f6;--nb:#1f8a4c;--nm:#7cb342;--al:#e0a800;--am:#c62828}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:var(--bg);font-size:14px}
+.wrap{max-width:1050px;margin:0 auto;padding:12px}
+.sheet{background:#fff;border:1px solid var(--line);padding:18px 20px;border-radius:6px}
+.hdr{display:grid;grid-template-columns:170px 1fr 170px;border:1.5px solid var(--ink)}
+.hdr>div{padding:8px 10px;display:flex;flex-direction:column;justify-content:center}
+.hdr .logo{border-right:1.5px solid var(--ink)}
+.logo b{font-size:17px;letter-spacing:2px;color:var(--teal)}
+.logo small{font-size:9px;letter-spacing:1px;color:var(--mut)}
+.hdr .tit{text-align:center;font-weight:bold;font-size:15px;line-height:1.3}
+.hdr .tit span{display:block;font-size:12px;font-weight:normal;color:var(--mut);margin-top:3px}
+.hdr .cod{border-left:1.5px solid var(--ink);text-align:center;font-size:12px}
+.hdr .cod input{text-align:center;font-weight:bold;font-size:16px;color:var(--teal)}
+.bar{height:4px;background:var(--orange);margin:6px 0 14px}
+.ficha{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--ink);border-bottom:0;margin-bottom:12px}
+.ficha label{border-bottom:1px solid var(--ink);border-right:1px solid var(--line);padding:5px 7px;font-size:11px;color:var(--mut);display:flex;flex-direction:column;gap:2px}
+.ficha label.w2{grid-column:span 2}
+input,select,textarea{font:inherit;color:var(--ink);border:0;border-bottom:1px solid var(--line);background:transparent;padding:4px 2px;width:100%;border-radius:0}
+input:focus,textarea:focus,select:focus{outline:none;border-bottom:2px solid var(--teal);background:#eef7f7}
+.ficha input,.ficha select{font-size:14px;color:#0a2a6b}
+.tools{position:sticky;top:0;z-index:20;background:var(--teal);color:#fff;display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 10px;border-radius:6px;margin-bottom:10px}
+.tools button{background:#fff;color:var(--teal);border:0;border-radius:4px;padding:8px 11px;font-weight:bold;font-size:13px;cursor:pointer}
+.tools button.pri{background:var(--orange);color:#fff}
+.tools input[type=file]{display:none}
+.tools .prog{margin-left:auto;font-size:12px}
+.lim{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.lim>div{border:1px solid var(--line);padding:6px 8px;font-size:11.5px}
+.lim b{display:block;margin-bottom:4px;font-size:12px}
+.lim .row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.lim input{width:48px;text-align:center;font-weight:bold;padding:2px}
+.chip{display:inline-block;border-radius:3px;padding:2px 6px;font-size:10.5px;font-weight:bold;color:#fff;white-space:nowrap}
+.c0{background:#b0bac0}.c1{background:var(--nb)}.c2{background:var(--nm)}.c3{background:var(--al);color:#222}.c4{background:var(--am)}
+.tabs{display:flex;gap:4px;margin:6px 0 0;flex-wrap:wrap}
+.tabs button{border:1px solid var(--ink);border-bottom:0;background:#e6ebee;padding:9px 14px;font-weight:bold;font-size:13px;cursor:pointer;border-radius:5px 5px 0 0;color:var(--ink)}
+.tabs button.on{background:var(--ink);color:#fff}
+.tabs button .chip{margin-left:6px}
+.filtro{display:none;border:1px solid var(--ink);padding:10px;margin-bottom:14px}
+.filtro.on{display:block}
+.fhead{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--ink);color:#fff;padding:7px 10px;margin:-10px -10px 10px}
+.fhead h2{margin:0;font-size:14px}
+.fhead select{width:auto;color:#fff;border-bottom:1px solid #fff;background:transparent}
+.fhead select option{color:#000}
+.fhead label{font-size:12px;display:flex;gap:6px;align-items:center}
+.ftools{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.ftools button{border:1px solid var(--teal);background:#fff;color:var(--teal);padding:6px 10px;border-radius:4px;font-size:12px;font-weight:bold;cursor:pointer}
+.ftools button.on{background:var(--teal);color:#fff}
+.aviso{background:#fff6e5;border:1px solid #f0c36d;padding:7px 9px;font-size:12px;margin-bottom:8px}
+.grid2{display:grid;grid-template-columns:250px 1fr;gap:12px;align-items:start}
+.mapa{border:1px solid var(--line);background:#fafbfb;padding:6px;position:sticky;top:60px}
+.mapa svg{width:100%;height:auto;display:block}
+.mapa .leg{font-size:10px;color:var(--mut);display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.mapa circle{cursor:pointer}
+.res{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:8px}
+.res div{border:1px solid var(--line);padding:5px;text-align:center;font-size:10.5px}
+.res b{display:block;font-size:17px}
+table{border-collapse:collapse;width:100%}
+.tp td,.tp th{border:1px solid var(--line);padding:3px 4px;font-size:12px;text-align:center;vertical-align:middle}
+.tp th{background:#eef1f3;font-size:10.5px}
+.tp tr.grp td{background:#dfe7ea;font-weight:bold;text-align:left;font-size:12px}
+.tp td.nm{text-align:left;min-width:120px}
+.tp td.nm small{display:block;color:var(--mut);font-size:9.5px}
+.tp td.nm input{font-weight:bold;padding:1px}
+.tp input.db{width:56px;text-align:center;font-weight:bold;font-size:14px;padding:5px 1px}
+.tp input.ob{font-size:11.5px;min-width:90px}
+.tp input.g{width:40px;text-align:center}
+.tp select{font-size:11.5px;padding:3px 0}
+.tp tr.flash td{animation:fl 1.6s}
+@keyframes fl{0%{background:#ffe9a8}100%{background:transparent}}
+.lub{width:34px;height:30px;border:1px solid var(--line);border-radius:4px;background:#fff;font-size:15px;cursor:pointer;color:#bbb}
+.lub.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.dl{font-size:11px;font-weight:bold;white-space:nowrap}
+.up{color:var(--am)}.dn{color:var(--nb)}
+.sp{display:block}
+.del{border:0;background:none;color:var(--am);font-size:15px;cursor:pointer}
+.addrow{margin:6px 0 0;border:1px dashed var(--teal);background:#fff;color:var(--teal);padding:6px 10px;border-radius:4px;font-size:12px;cursor:pointer}
+.sec{margin-bottom:16px}
+.sec h2{margin:0;background:var(--ink);color:#fff;font-size:13px;padding:7px 10px;display:flex;align-items:center}
+.sec h2 small{font-weight:normal;font-size:11px;opacity:.85;margin-left:auto;text-align:right;padding-left:10px}
+.hall td,.hall th{border:1px solid var(--line);padding:4px 6px;font-size:12px}
+.hall th{background:#eef1f3;font-size:11px}
+textarea{border:1px solid var(--line);min-height:70px;padding:6px}
+.firmas{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--ink);border-right:0;border-bottom:0}
+.firmas>div{border-right:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:7px 8px;font-size:11px}
+.firmas b{display:block;font-size:11.5px;margin-bottom:3px;color:var(--teal)}
+.firmas .fl{height:42px;border-bottom:1px solid var(--ink);margin:6px 0 2px}
+.firmas canvas{width:100%;height:42px;touch-action:none;cursor:crosshair}
+.firmas .lbl{display:flex;justify-content:space-between;color:var(--mut);font-size:10px}
+.firmas .lbl a{color:var(--am);cursor:pointer}
+.foot{font-size:10px;color:var(--mut);display:flex;justify-content:space-between;margin-top:12px;border-top:1px solid var(--line);padding-top:5px}
+.ref{font-size:10.5px;color:var(--mut);padding:5px 8px;border:1px solid var(--line);border-top:0;background:#fafbfb}
+.onlyprint{display:none}
+@media screen and (max-width:820px){
+  .grid2{grid-template-columns:1fr}.mapa{position:static;max-width:330px;margin:0 auto}
+  .hdr{grid-template-columns:1fr}.hdr .logo,.hdr .cod{border:0}
+  .ficha{grid-template-columns:1fr 1fr}.lim{grid-template-columns:1fr}
+  .tp{display:block;overflow-x:auto}
+  .firmas{grid-template-columns:1fr}
+}
+@media print{
+  @page{size:A4 portrait;margin:10mm 9mm}
+  body{background:#fff;font-size:10px}
+  .wrap{max-width:none;padding:0}.sheet{border:0;padding:0}
+  .tools,.tabs,.ftools,.addrow,.del,.noprint,.firmas .lbl a{display:none!important}
+  .onlyprint{display:block}
+  .filtro{display:block!important;padding:6px;margin-top:8px}.filtro.pb{break-before:page}
+  .filtro.noinf,.noinf{display:none!important}
+  .fhead{margin:-6px -6px 6px}
+  .grid2{grid-template-columns:150px 1fr;gap:6px}
+  .mapa{position:static;padding:3px}
+  .tp td,.tp th{font-size:8.5px;padding:1px 2px}
+  .tp input.db{font-size:9.5px;width:34px;padding:1px}
+  .tp input,.tp select{font-size:8.5px;padding:0}
+  .tp td.nm{min-width:0;white-space:nowrap}.tp td.nm small{font-size:7px}.tp td.nm small .ins{display:none}
+  .lub{width:auto;height:auto;border:0;font-size:9px;background:none!important;color:var(--ink)!important}
+  .lub:not(.on){color:transparent!important}
+  input,select,textarea{border-bottom:0}
+  select{-webkit-appearance:none;appearance:none}
+  ::placeholder{color:transparent!important}
+  input::-webkit-calendar-picker-indicator{display:none}
+  .vacio{color:transparent!important}
+  tr{break-inside:avoid}.sec,.firmas{break-inside:avoid}
+  .res b{font-size:12px}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+.logo img{width:100%;max-width:150px;height:auto;display:block;margin:0 auto 4px}.logo small{display:block;text-align:center;font-weight:bold;line-height:1.25}
+</style>
+</head>
+<body>
+<div id="avisoJS" class="noprint" style="background: rgb(198, 40, 40); color: rgb(255, 255, 255); padding: 14px; font: 15px / 1.45 Arial, sans-serif;">⚠ <b>Está viendo una vista previa sin funciones</b> (visor del .zip, del correo o de archivos). En esta vista no se puede llenar, guardar ni imprimir.<br><b>Solución:</b> extraiga / descargue el archivo y ábralo en <b>Chrome</b> (Android / PC) o <b>Safari</b> (iPhone / iPad).</div>
+<div id="avisoNav" class="noprint" style="display:none;background:#c62828;color:#fff;padding:12px 14px;font:14px/1.4 Arial,sans-serif;position:sticky;top:0;z-index:99"></div>
+<script>
+(function(){var aj=document.getElementById('avisoJS');if(aj)aj.style.display='none';var m=[],ua=navigator.userAgent||'';
+var ok=true;try{var k='__t'+Date.now();localStorage.setItem(k,'1');localStorage.removeItem(k)}catch(e){ok=false}
+var inapp=/WhatsApp|FBAN|FBAV|Instagram|Line\/|Teams|Outlook|OneDrive|GSA\/|wv\)|; wv|Telegram|Gmail/i.test(ua);
+if(!ok)m.push('Este visor <b>no permite guardar</b> los datos.');
+if(inapp)m.push('El archivo está abierto <b>dentro de una aplicación</b> (WhatsApp, correo, Teams, OneDrive o visor de archivos). Ahí no funcionan bien el guardado ni la impresión.');
+if(m.length){var d=document.getElementById('avisoNav');d.innerHTML='⚠ '+m.join(' ')+'<br><b>Solución:</b> descargue el archivo y ábralo en <b>Chrome</b> (Android / PC) o <b>Safari</b> (iPhone / iPad). Use el menú ⋮ o el botón Compartir → <b>“Abrir en Chrome / Abrir en Safari”</b>.';d.style.display='block'}
+var p=window.print;window.print=function(){try{if(typeof p!=='function')throw 0;p.call(window)}catch(e){alert('Este visor no permite imprimir. Abra el archivo en Chrome o Safari y use «Informe PDF / Imprimir» → «Guardar como PDF».')}};
+})();
+</script>
+<div class="wrap">
+<div class="tools noprint"><a href="../index.html" style="background:#fff;color:#0b6e74;border-radius:4px;padding:8px 11px;font-weight:bold;font-size:13px;text-decoration:none">☰ Menú</a>
+  <select id="selInf" title="Filtro(s) que salen en el informe" style="width:auto;background:#fff;color:var(--teal);font-weight:bold;border:0;border-radius:4px;padding:8px 6px;font-size:13px"><option value="all">Informe: los 3 filtros</option><option value="f1">Informe: solo 621-FL-001</option><option value="f2">Informe: solo 621-FL-002</option><option value="f3">Informe: solo 0621-FL-1101</option></select>
+  <button class="pri" onclick="imprimir()" title="Elegir impresora o «Guardar como PDF»">📄 Informe PDF / Imprimir</button>
+  <button onclick="cerrarSemana()" title="Guarda las lecturas en el historial y deja la planilla lista para la próxima semana">✅ Cerrar semana</button>
+  <button onclick="exportar()" title="Archivo para continuar en otro equipo (no es el informe)">💾 Respaldo de datos</button>
+  <button onclick="document.getElementById('imp').click()">📂 Cargar respaldo</button>
+  <input type="file" id="imp" accept=".json" onchange="importar(this)">
+  <span class="prog" id="prog">S45_2026 · 0/111 polines medidos · guardado automático en este dispositivo</span>
+</div>
+
+<div class="sheet">
+  <div class="hdr">
+    <div class="logo"><img src="data:image/png;base64,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" alt="Centinela – Antofagasta Minerals"><small>MANTENIMIENTO MECÁNICO – MUELLE</small></div>
+    <div class="tit">PROTOCOLO SEMANAL DE LUBRICACIÓN Y ULTRASONIDO<br>POLINES FILTROS LAROX<span id="subt">621-FL-001 · 621-FL-002 · 0621-FL-1101</span></div>
+    <div class="cod">Semana N°<input data-k="semana"></div>
+  </div>
+  <div class="bar"></div>
+
+  <div class="ficha">
+    <label>Fecha<input type="date" data-k="fecha"></label>
+    <label>Turno<select data-k="turno"><option></option><option>Día</option><option>Noche</option></select></label>
+    <label>N° OT / Aviso<input data-k="ot"></label>
+    <label>Hora<input type="time" data-k="hora"></label>
+    <label class="w2">Inspector / Lubricador<input data-k="inspector"></label>
+    <label class="w2">Equipo de ultrasonido (marca / modelo / serie)<input data-k="equipo"></label>
+    <label class="w2">Grasa utilizada<input data-k="grasa" placeholder="NLGI 2"></label>
+    <label class="w2">Calibración / verificación del equipo<input data-k="calib"></label>
+  </div>
+
+  <div class="lim">
+    <div><b>Límites polines conducidos y especiales (dB)</b>
+      <div class="row"><span class="chip c1">Normal bajo</span> &lt; <input data-lim="g1"> ≤ <span class="chip c2">Normal medio</span> &lt; <input data-lim="g2"> ≤ <span class="chip c3">Alarma</span> &lt; <input data-lim="g3"> ≤ <span class="chip c4">Amenaza</span></div></div>
+    <div><b>Límites polines motrices (dB)</b>
+      <div class="row"><span class="chip c1">Normal bajo</span> &lt; <input data-lim="m1"> ≤ <span class="chip c2">Normal medio</span> &lt; <input data-lim="m2"> ≤ <span class="chip c3">Alarma</span> &lt; <input data-lim="m3"> ≤ <span class="chip c4">Amenaza</span></div></div>
+  </div>
+  <div class="ref" style="border-top:1px solid var(--line);margin:-6px 0 12px">Medición de ultrasonido propagado en aire. Límites condenatorios del reporte de Ingeniería de Confiabilidad y Planificación (período 2025). <b>Posición 1</b>: lado acople motor · <b>Posición 4</b>: lado libre (polines impares) · <b>Posición 3</b>: lado acople motor · <b>Posición 2</b>: lado libre (polines pares y especiales). El estado se calcula con la lectura mayor del polín. Δ = diferencia con la semana anterior del historial.</div>
+
+  <div class="tabs noprint" id="tabs"><button data-t="f1" class="on">621-FL-001<span class="chip c0" id="tc_f1">—</span></button><button data-t="f2" class="">621-FL-002<span class="chip c0" id="tc_f2">—</span></button><button data-t="f3" class="">0621-FL-1101<span class="chip c0" id="tc_f3">—</span></button></div>
+  <div id="filtros"><div class="filtro on" id="F_f1">
+ <div class="fhead"><h2>621-FL-001 – Filtro Larox N°1</h2><label>Estado del filtro <select data-est="f1"><option selected=""></option><option>Operando</option><option>Detenido</option><option>En mantención</option><option>Fuera de servicio</option></select></label></div>
+ 
+ <div class="ftools noprint"><button onclick="lubTodos('f1')">🛢 Marcar todos lubricados</button><button class="" onclick="S.edit=S.edit=='f1'?null:'f1';render()">✏ Editar polines</button></div>
+ <div class="res" id="res_f1"><div><b style="color:#1f8a4c">0</b>Normal bajo</div><div><b style="color:#7cb342">0</b>Normal medio</div><div><b style="color:#e0a800">0</b>Alarma</div><div><b style="color:#c62828">0</b>Amenaza</div><div><b>0/37</b>Lubricados</div></div>
+ <div class="grid2"><div class="mapa" id="map_f1"><svg viewBox="0 0 230 500"><rect x="70" y="56" width="90" height="366" fill="#e6ebee" stroke="#9aa6ad"></rect><text x="115" y="242" font-size="9" fill="#5f6b73" text-anchor="middle" transform="rotate(-90 115 242)">PAQUETE DE PLACAS</text><text x="40" y="52" font-size="8.5" text-anchor="middle" fill="#5f6b73">P1 · P4</text><text x="190" y="52" font-size="8.5" text-anchor="middle" fill="#5f6b73">P3 · P2</text><g onclick="ir('f1',28)"><circle cx="190" cy="70" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="73.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">28</text></g><g onclick="ir('f1',26)"><circle cx="190" cy="94" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="97.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">26</text></g><g onclick="ir('f1',24)"><circle cx="190" cy="118" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="121.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">24</text></g><g onclick="ir('f1',22)"><circle cx="190" cy="142" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="145.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">22</text></g><g onclick="ir('f1',20)"><circle cx="190" cy="166" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="169.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">20</text></g><g onclick="ir('f1',18)"><circle cx="190" cy="190" r="10" fill="#b0bac0" stroke="#1d2327" stroke-width="2.5"></circle><text x="190" y="193.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">18</text></g><g onclick="ir('f1',16)"><circle cx="190" cy="214" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="217.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">16</text></g><g onclick="ir('f1',14)"><circle cx="190" cy="238" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="241.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">14</text></g><g onclick="ir('f1',12)"><circle cx="190" cy="262" r="10" fill="#b0bac0" stroke="#1d2327" stroke-width="2.5"></circle><text x="190" y="265.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">12</text></g><g onclick="ir('f1',10)"><circle cx="190" cy="286" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="289.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">10</text></g><g onclick="ir('f1',8)"><circle cx="190" cy="310" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="313.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">8</text></g><g onclick="ir('f1',6)"><circle cx="190" cy="334" r="10" fill="#b0bac0" stroke="#1d2327" stroke-width="2.5"></circle><text x="190" y="337.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">6</text></g><g onclick="ir('f1',4)"><circle cx="190" cy="358" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="361.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">4</text></g><g onclick="ir('f1',2)"><circle cx="190" cy="382" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="385.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">2</text></g><g onclick="ir('f1',0)"><circle cx="190" cy="406" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="409.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">0</text></g><g onclick="ir('f1',27)"><circle cx="40" cy="82" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="85.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">27</text></g><g onclick="ir('f1',25)"><circle cx="40" cy="106" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="109.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">25</text></g><g onclick="ir('f1',23)"><circle cx="40" cy="130" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="133.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">23</text></g><g onclick="ir('f1',21)"><circle cx="40" cy="154" r="10" fill="#b0bac0" stroke="#1d2327" stroke-width="2.5"></circle><text x="40" y="157.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">21</text></g><g onclick="ir('f1',19)"><circle cx="40" cy="178" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="181.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">19</text></g><g onclick="ir('f1',17)"><circle cx="40" cy="202" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="205.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">17</text></g><g onclick="ir('f1',15)"><circle cx="40" cy="226" r="10" fill="#b0bac0" stroke="#1d2327" stroke-width="2.5"></circle><text x="40" y="229.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">15</text></g><g onclick="ir('f1',13)"><circle cx="40" cy="250" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="253.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">13</text></g><g onclick="ir('f1',11)"><circle cx="40" cy="274" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="277.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">11</text></g><g onclick="ir('f1',9)"><circle cx="40" cy="298" r="10" fill="#b0bac0" stroke="#1d2327" stroke-width="2.5"></circle><text x="40" y="301.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">9</text></g><g onclick="ir('f1',7)"><circle cx="40" cy="322" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="325.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">7</text></g><g onclick="ir('f1',5)"><circle cx="40" cy="346" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="349.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">5</text></g><g onclick="ir('f1',3)"><circle cx="40" cy="370" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="373.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">3</text></g><g onclick="ir('f1',1)"><circle cx="40" cy="394" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="397.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">1</text></g><g onclick="ir('f1',29)"><circle cx="22" cy="22" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="22" y="25.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">29</text></g><g onclick="ir('f1',30)"><circle cx="59" cy="22" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="59" y="25.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">30</text></g><g onclick="ir('f1',31)"><circle cx="96" cy="22" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="96" y="25.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">31</text></g><g onclick="ir('f1',32)"><circle cx="133" cy="22" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="133" y="25.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">32</text></g><g onclick="ir('f1',33)"><circle cx="170" cy="22" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="170" y="25.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">33</text></g><g onclick="ir('f1',34)"><circle cx="207" cy="22" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="207" y="25.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">34</text></g><text x="22" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">Impulsor</text><text x="59" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">Distribuc</text><text x="96" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">Centrador</text><text x="133" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">Tensor</text><text x="170" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">Principal</text><text x="207" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">Prensa</text><g onclick="ir('f1',35)"><circle cx="80" cy="458" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="80" y="461.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">35</text></g><text x="80" y="480" font-size="7" text-anchor="middle" fill="#5f6b73">Tina exterior</text><g onclick="ir('f1',36)"><circle cx="150" cy="458" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="150" y="461.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">36</text></g><text x="150" y="480" font-size="7" text-anchor="middle" fill="#5f6b73">Tina interior</text></svg><div class="leg"><span class="chip c1">Normal bajo</span><span class="chip c2">Normal medio</span><span class="chip c3">Alarma</span><span class="chip c4">Amenaza</span><span>● borde negro = motriz · toque un polín para ir a su fila</span></div></div>
+ <div><table class="tp"><thead><tr><th>N°</th><th>Polín</th><th>Lado acople<br>(dB)</th><th>Lado libre<br>(dB)</th><th>Estado</th><th>Δ sem.<br>ant.</th><th>Tendencia</th><th>Lub.</th><th>Grasa<br>(g)</th><th>Cambio</th><th>Observación</th></tr></thead><tbody>
+ <tr class="grp"><td colspan="11">Polines especiales (posición 3 acople / 2 libre)</td></tr><tr id="row_f1_29"><td>29</td><td class="nm">Impulsor N°29<small>P3 · P2<span class="ins"> · inst. 2018-03-10</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="29" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="29" data-c="b" value=""></td>
+ <td id="e_f1_29"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_29"></td>
+ <td id="s_f1_29"></td>
+ <td><button class="lub " data-lub="29" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="29" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="29" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="29" data-c="ob" value=""></td></tr><tr id="row_f1_30"><td>30</td><td class="nm">Distribución N°30<small>P3 · P2<span class="ins"> · inst. 2018-03-10</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="30" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="30" data-c="b" value=""></td>
+ <td id="e_f1_30"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_30"></td>
+ <td id="s_f1_30"></td>
+ <td><button class="lub " data-lub="30" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="30" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="30" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="30" data-c="ob" value=""></td></tr><tr id="row_f1_31"><td>31</td><td class="nm">Centrador N°31<small>P3 · P2<span class="ins"> · inst. 2023-01-31</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="31" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="31" data-c="b" value=""></td>
+ <td id="e_f1_31"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_31"></td>
+ <td id="s_f1_31"></td>
+ <td><button class="lub " data-lub="31" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="31" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="31" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="31" data-c="ob" value=""></td></tr><tr id="row_f1_32"><td>32</td><td class="nm">Tensor N°32<small>P3 · P2<span class="ins"> · inst. 2023-01-31</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="32" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="32" data-c="b" value=""></td>
+ <td id="e_f1_32"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_32"></td>
+ <td id="s_f1_32"></td>
+ <td><button class="lub " data-lub="32" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="32" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="32" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="32" data-c="ob" value=""></td></tr><tr id="row_f1_33"><td>33</td><td class="nm">Principal N°33<small>P3 · P2<span class="ins"> · inst. 2023-01-31</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="33" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="33" data-c="b" value=""></td>
+ <td id="e_f1_33"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_33"></td>
+ <td id="s_f1_33"></td>
+ <td><button class="lub " data-lub="33" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="33" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="33" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="33" data-c="ob" value=""></td></tr><tr id="row_f1_34"><td>34</td><td class="nm">Prensa N°34<small>P3 · P2<span class="ins"> · inst. 2023-01-31</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="34" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="34" data-c="b" value=""></td>
+ <td id="e_f1_34"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_34"></td>
+ <td id="s_f1_34"></td>
+ <td><button class="lub " data-lub="34" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="34" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="34" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="34" data-c="ob" value=""></td></tr><tr id="row_f1_35"><td>35</td><td class="nm">Tina exterior N°35<small>P3 · P2<span class="ins"> · inst. 2023-01-31</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="35" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="35" data-c="b" value=""></td>
+ <td id="e_f1_35"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_35"></td>
+ <td id="s_f1_35"></td>
+ <td><button class="lub " data-lub="35" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="35" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="35" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="35" data-c="ob" value=""></td></tr><tr id="row_f1_36"><td>36</td><td class="nm">Tina interior N°36<small>P3 · P2<span class="ins"> · inst. 2023-01-31</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="36" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="36" data-c="b" value=""></td>
+ <td id="e_f1_36"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_36"></td>
+ <td id="s_f1_36"></td>
+ <td><button class="lub " data-lub="36" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="36" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="36" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="36" data-c="ob" value=""></td></tr>
+ <tr class="grp"><td colspan="11">Columna polines pares (posición 3 acople / 2 libre)</td></tr><tr id="row_f1_28"><td>28</td><td class="nm">Conducido N°28<small>P3 · P2<span class="ins"> · inst. 2023-09-28</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="28" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="28" data-c="b" value=""></td>
+ <td id="e_f1_28"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_28"></td>
+ <td id="s_f1_28"></td>
+ <td><button class="lub " data-lub="28" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="28" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="28" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="28" data-c="ob" value=""></td></tr><tr id="row_f1_26"><td>26</td><td class="nm">Conducido N°26<small>P3 · P2<span class="ins"> · inst. 2023-09-28</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="26" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="26" data-c="b" value=""></td>
+ <td id="e_f1_26"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_26"></td>
+ <td id="s_f1_26"></td>
+ <td><button class="lub " data-lub="26" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="26" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="26" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="26" data-c="ob" value=""></td></tr><tr id="row_f1_24"><td>24</td><td class="nm">Conducido N°24<small>P3 · P2<span class="ins"> · inst. 2023-10-11</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="24" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="24" data-c="b" value=""></td>
+ <td id="e_f1_24"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_24"></td>
+ <td id="s_f1_24"></td>
+ <td><button class="lub " data-lub="24" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="24" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="24" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="24" data-c="ob" value=""></td></tr><tr id="row_f1_22"><td>22</td><td class="nm">Conducido N°22<small>P3 · P2<span class="ins"> · inst. 2023-10-11</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="22" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="22" data-c="b" value=""></td>
+ <td id="e_f1_22"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_22"></td>
+ <td id="s_f1_22"></td>
+ <td><button class="lub " data-lub="22" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="22" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="22" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="22" data-c="ob" value=""></td></tr><tr id="row_f1_20"><td>20</td><td class="nm">Conducido N°20<small>P3 · P2<span class="ins"> · inst. 2023-10-11</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="20" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="20" data-c="b" value=""></td>
+ <td id="e_f1_20"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_20"></td>
+ <td id="s_f1_20"></td>
+ <td><button class="lub " data-lub="20" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="20" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="20" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="20" data-c="ob" value=""></td></tr><tr id="row_f1_18"><td>18</td><td class="nm">Motriz N°18<small>P3 · P2<span class="ins"> · inst. 2023-11-24</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="18" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="18" data-c="b" value=""></td>
+ <td id="e_f1_18"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_18"></td>
+ <td id="s_f1_18"></td>
+ <td><button class="lub " data-lub="18" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="18" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="18" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="18" data-c="ob" value=""></td></tr><tr id="row_f1_16"><td>16</td><td class="nm">Conducido N°16<small>P3 · P2<span class="ins"> · inst. 2023-10-18</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="16" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="16" data-c="b" value=""></td>
+ <td id="e_f1_16"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_16"></td>
+ <td id="s_f1_16"></td>
+ <td><button class="lub " data-lub="16" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="16" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="16" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="16" data-c="ob" value=""></td></tr><tr id="row_f1_14"><td>14</td><td class="nm">Conducido N°14<small>P3 · P2<span class="ins"> · inst. 2023-10-18</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="14" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="14" data-c="b" value=""></td>
+ <td id="e_f1_14"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_14"></td>
+ <td id="s_f1_14"></td>
+ <td><button class="lub " data-lub="14" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="14" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="14" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="14" data-c="ob" value=""></td></tr><tr id="row_f1_12"><td>12</td><td class="nm">Motriz N°12<small>P3 · P2<span class="ins"> · inst. 2023-11-08</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="12" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="12" data-c="b" value=""></td>
+ <td id="e_f1_12"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_12"></td>
+ <td id="s_f1_12"></td>
+ <td><button class="lub " data-lub="12" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="12" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="12" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="12" data-c="ob" value=""></td></tr><tr id="row_f1_10"><td>10</td><td class="nm">Conducido N°10<small>P3 · P2<span class="ins"> · inst. 2023-12-05</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="10" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="10" data-c="b" value=""></td>
+ <td id="e_f1_10"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_10"></td>
+ <td id="s_f1_10"></td>
+ <td><button class="lub " data-lub="10" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="10" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="10" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="10" data-c="ob" value=""></td></tr><tr id="row_f1_8"><td>8</td><td class="nm">Conducido N°8<small>P3 · P2<span class="ins"> · inst. 2023-12-05</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="8" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="8" data-c="b" value=""></td>
+ <td id="e_f1_8"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_8"></td>
+ <td id="s_f1_8"></td>
+ <td><button class="lub " data-lub="8" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="8" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="8" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="8" data-c="ob" value=""></td></tr><tr id="row_f1_6"><td>6</td><td class="nm">Motriz N°6<small>P3 · P2<span class="ins"> · inst. 2023-12-05</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="6" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="6" data-c="b" value=""></td>
+ <td id="e_f1_6"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_6"></td>
+ <td id="s_f1_6"></td>
+ <td><button class="lub " data-lub="6" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="6" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="6" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="6" data-c="ob" value=""></td></tr><tr id="row_f1_4"><td>4</td><td class="nm">Conducido N°4<small>P3 · P2<span class="ins"> · inst. 2023-12-06</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="4" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="4" data-c="b" value=""></td>
+ <td id="e_f1_4"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_4"></td>
+ <td id="s_f1_4"></td>
+ <td><button class="lub " data-lub="4" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="4" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="4" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="4" data-c="ob" value=""></td></tr><tr id="row_f1_2"><td>2</td><td class="nm">Conducido N°2<small>P3 · P2<span class="ins"> · inst. 2023-01-31</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="2" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="2" data-c="b" value=""></td>
+ <td id="e_f1_2"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_2"></td>
+ <td id="s_f1_2"></td>
+ <td><button class="lub " data-lub="2" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="2" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="2" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="2" data-c="ob" value=""></td></tr><tr id="row_f1_0"><td>0</td><td class="nm">Conducido N°0<small>P3 · P2<span class="ins"> · inst. 2023-06-28</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="0" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="0" data-c="b" value=""></td>
+ <td id="e_f1_0"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_0"></td>
+ <td id="s_f1_0"></td>
+ <td><button class="lub " data-lub="0" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="0" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="0" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="0" data-c="ob" value=""></td></tr>
+ <tr class="grp"><td colspan="11">Columna polines impares (posición 1 acople / 4 libre)</td></tr><tr id="row_f1_27"><td>27</td><td class="nm">Conducido N°27<small>P1 · P4<span class="ins"> · inst. 2023-09-28</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="27" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="27" data-c="b" value=""></td>
+ <td id="e_f1_27"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_27"></td>
+ <td id="s_f1_27"></td>
+ <td><button class="lub " data-lub="27" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="27" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="27" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="27" data-c="ob" value=""></td></tr><tr id="row_f1_25"><td>25</td><td class="nm">Conducido N°25<small>P1 · P4<span class="ins"> · inst. 2023-09-28</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="25" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="25" data-c="b" value=""></td>
+ <td id="e_f1_25"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_25"></td>
+ <td id="s_f1_25"></td>
+ <td><button class="lub " data-lub="25" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="25" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="25" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="25" data-c="ob" value=""></td></tr><tr id="row_f1_23"><td>23</td><td class="nm">Conducido N°23<small>P1 · P4<span class="ins"> · inst. 2023-10-11</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="23" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="23" data-c="b" value=""></td>
+ <td id="e_f1_23"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_23"></td>
+ <td id="s_f1_23"></td>
+ <td><button class="lub " data-lub="23" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="23" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="23" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="23" data-c="ob" value=""></td></tr><tr id="row_f1_21"><td>21</td><td class="nm">Motriz N°21<small>P1 · P4<span class="ins"> · inst. 2023-11-24</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="21" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="21" data-c="b" value=""></td>
+ <td id="e_f1_21"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_21"></td>
+ <td id="s_f1_21"></td>
+ <td><button class="lub " data-lub="21" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="21" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="21" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="21" data-c="ob" value=""></td></tr><tr id="row_f1_19"><td>19</td><td class="nm">Conducido N°19<small>P1 · P4<span class="ins"> · inst. 2023-10-18</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="19" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="19" data-c="b" value=""></td>
+ <td id="e_f1_19"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_19"></td>
+ <td id="s_f1_19"></td>
+ <td><button class="lub " data-lub="19" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="19" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="19" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="19" data-c="ob" value=""></td></tr><tr id="row_f1_17"><td>17</td><td class="nm">Conducido N°17<small>P1 · P4<span class="ins"> · inst. 2023-10-18</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="17" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="17" data-c="b" value=""></td>
+ <td id="e_f1_17"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_17"></td>
+ <td id="s_f1_17"></td>
+ <td><button class="lub " data-lub="17" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="17" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="17" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="17" data-c="ob" value=""></td></tr><tr id="row_f1_15"><td>15</td><td class="nm">Motriz N°15<small>P1 · P4<span class="ins"> · inst. 2023-11-08</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="15" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="15" data-c="b" value=""></td>
+ <td id="e_f1_15"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_15"></td>
+ <td id="s_f1_15"></td>
+ <td><button class="lub " data-lub="15" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="15" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="15" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="15" data-c="ob" value=""></td></tr><tr id="row_f1_13"><td>13</td><td class="nm">Conducido N°13<small>P1 · P4<span class="ins"> · inst. 2023-11-08</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="13" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="13" data-c="b" value=""></td>
+ <td id="e_f1_13"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_13"></td>
+ <td id="s_f1_13"></td>
+ <td><button class="lub " data-lub="13" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="13" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="13" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="13" data-c="ob" value=""></td></tr><tr id="row_f1_11"><td>11</td><td class="nm">Conducido N°11<small>P1 · P4<span class="ins"> · inst. 2023-11-08</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="11" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="11" data-c="b" value=""></td>
+ <td id="e_f1_11"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_11"></td>
+ <td id="s_f1_11"></td>
+ <td><button class="lub " data-lub="11" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="11" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="11" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="11" data-c="ob" value=""></td></tr><tr id="row_f1_9"><td>9</td><td class="nm">Motriz N°9<small>P1 · P4<span class="ins"> · inst. 2023-12-05</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="9" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="9" data-c="b" value=""></td>
+ <td id="e_f1_9"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_9"></td>
+ <td id="s_f1_9"></td>
+ <td><button class="lub " data-lub="9" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="9" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="9" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="9" data-c="ob" value=""></td></tr><tr id="row_f1_7"><td>7</td><td class="nm">Conducido N°7<small>P1 · P4<span class="ins"> · inst. 2023-12-05</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="7" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="7" data-c="b" value=""></td>
+ <td id="e_f1_7"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_7"></td>
+ <td id="s_f1_7"></td>
+ <td><button class="lub " data-lub="7" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="7" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="7" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="7" data-c="ob" value=""></td></tr><tr id="row_f1_5"><td>5</td><td class="nm">Conducido N°5<small>P1 · P4<span class="ins"> · inst. 2023-12-06</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="5" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="5" data-c="b" value=""></td>
+ <td id="e_f1_5"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_5"></td>
+ <td id="s_f1_5"></td>
+ <td><button class="lub " data-lub="5" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="5" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="5" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="5" data-c="ob" value=""></td></tr><tr id="row_f1_3"><td>3</td><td class="nm">Conducido N°3<small>P1 · P4<span class="ins"> · inst. 2023-12-20</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="3" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="3" data-c="b" value=""></td>
+ <td id="e_f1_3"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_3"></td>
+ <td id="s_f1_3"></td>
+ <td><button class="lub " data-lub="3" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="3" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="3" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="3" data-c="ob" value=""></td></tr><tr id="row_f1_1"><td>1</td><td class="nm">Conducido N°1<small>P1 · P4<span class="ins"> · inst. 2023-01-31</span></small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="1" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="1" data-c="b" value=""></td>
+ <td id="e_f1_1"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f1_1"></td>
+ <td id="s_f1_1"></td>
+ <td><button class="lub " data-lub="1" data-f="f1">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f1" data-n="1" data-c="g" value=""></td>
+ <td><select data-f="f1" data-n="1" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f1" data-n="1" data-c="ob" value=""></td></tr>
+ <tr class="grp"><td colspan="11">Motores hidráulicos de polines motrices (dB)</td></tr>
+ <tr><td>M18</td><td class="nm">Motor Motriz N°18<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="M18" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="M18" data-c="b" value=""></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_f1_M18"></td><td id="s_f1_M18"></td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="f1" data-n="M18" data-c="ob" value=""></td></tr><tr><td>M12</td><td class="nm">Motor Motriz N°12<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="M12" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="M12" data-c="b" value=""></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_f1_M12"></td><td id="s_f1_M12"></td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="f1" data-n="M12" data-c="ob" value=""></td></tr><tr><td>M6</td><td class="nm">Motor Motriz N°6<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="M6" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="M6" data-c="b" value=""></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_f1_M6"></td><td id="s_f1_M6"></td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="f1" data-n="M6" data-c="ob" value=""></td></tr><tr><td>M21</td><td class="nm">Motor Motriz N°21<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="M21" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="M21" data-c="b" value=""></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_f1_M21"></td><td id="s_f1_M21"></td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="f1" data-n="M21" data-c="ob" value=""></td></tr><tr><td>M15</td><td class="nm">Motor Motriz N°15<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="M15" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="M15" data-c="b" value=""></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_f1_M15"></td><td id="s_f1_M15"></td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="f1" data-n="M15" data-c="ob" value=""></td></tr><tr><td>M9</td><td class="nm">Motor Motriz N°9<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="M9" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f1" data-n="M9" data-c="b" value=""></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_f1_M9"></td><td id="s_f1_M9"></td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="f1" data-n="M9" data-c="ob" value=""></td></tr>
+ </tbody></table></div></div></div><div class="filtro " id="F_f2">
+ <div class="fhead"><h2>621-FL-002 – Filtro Larox N°2</h2><label>Estado del filtro <select data-est="f2"><option selected=""></option><option>Operando</option><option>Detenido</option><option>En mantención</option><option>Fuera de servicio</option></select></label></div>
+ 
+ <div class="ftools noprint"><button onclick="lubTodos('f2')">🛢 Marcar todos lubricados</button><button class="" onclick="S.edit=S.edit=='f2'?null:'f2';render()">✏ Editar polines</button></div>
+ <div class="res" id="res_f2"><div><b style="color:#1f8a4c">0</b>Normal bajo</div><div><b style="color:#7cb342">0</b>Normal medio</div><div><b style="color:#e0a800">0</b>Alarma</div><div><b style="color:#c62828">0</b>Amenaza</div><div><b>0/37</b>Lubricados</div></div>
+ <div class="grid2"><div class="mapa" id="map_f2"><svg viewBox="0 0 230 500"><rect x="70" y="56" width="90" height="366" fill="#e6ebee" stroke="#9aa6ad"></rect><text x="115" y="242" font-size="9" fill="#5f6b73" text-anchor="middle" transform="rotate(-90 115 242)">PAQUETE DE PLACAS</text><text x="40" y="52" font-size="8.5" text-anchor="middle" fill="#5f6b73">P1 · P4</text><text x="190" y="52" font-size="8.5" text-anchor="middle" fill="#5f6b73">P3 · P2</text><g onclick="ir('f2',28)"><circle cx="190" cy="70" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="73.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">28</text></g><g onclick="ir('f2',26)"><circle cx="190" cy="94" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="97.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">26</text></g><g onclick="ir('f2',24)"><circle cx="190" cy="118" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="121.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">24</text></g><g onclick="ir('f2',22)"><circle cx="190" cy="142" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="145.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">22</text></g><g onclick="ir('f2',20)"><circle cx="190" cy="166" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="169.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">20</text></g><g onclick="ir('f2',18)"><circle cx="190" cy="190" r="10" fill="#b0bac0" stroke="#1d2327" stroke-width="2.5"></circle><text x="190" y="193.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">18</text></g><g onclick="ir('f2',16)"><circle cx="190" cy="214" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="217.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">16</text></g><g onclick="ir('f2',14)"><circle cx="190" cy="238" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="241.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">14</text></g><g onclick="ir('f2',12)"><circle cx="190" cy="262" r="10" fill="#b0bac0" stroke="#1d2327" stroke-width="2.5"></circle><text x="190" y="265.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">12</text></g><g onclick="ir('f2',10)"><circle cx="190" cy="286" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="289.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">10</text></g><g onclick="ir('f2',8)"><circle cx="190" cy="310" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="313.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">8</text></g><g onclick="ir('f2',6)"><circle cx="190" cy="334" r="10" fill="#b0bac0" stroke="#1d2327" stroke-width="2.5"></circle><text x="190" y="337.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">6</text></g><g onclick="ir('f2',4)"><circle cx="190" cy="358" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="361.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">4</text></g><g onclick="ir('f2',2)"><circle cx="190" cy="382" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="385.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">2</text></g><g onclick="ir('f2',0)"><circle cx="190" cy="406" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="409.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">0</text></g><g onclick="ir('f2',27)"><circle cx="40" cy="82" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="85.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">27</text></g><g onclick="ir('f2',25)"><circle cx="40" cy="106" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="109.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">25</text></g><g onclick="ir('f2',23)"><circle cx="40" cy="130" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="133.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">23</text></g><g onclick="ir('f2',21)"><circle cx="40" cy="154" r="10" fill="#b0bac0" stroke="#1d2327" stroke-width="2.5"></circle><text x="40" y="157.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">21</text></g><g onclick="ir('f2',19)"><circle cx="40" cy="178" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="181.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">19</text></g><g onclick="ir('f2',17)"><circle cx="40" cy="202" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="205.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">17</text></g><g onclick="ir('f2',15)"><circle cx="40" cy="226" r="10" fill="#b0bac0" stroke="#1d2327" stroke-width="2.5"></circle><text x="40" y="229.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">15</text></g><g onclick="ir('f2',13)"><circle cx="40" cy="250" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="253.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">13</text></g><g onclick="ir('f2',11)"><circle cx="40" cy="274" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="277.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">11</text></g><g onclick="ir('f2',9)"><circle cx="40" cy="298" r="10" fill="#b0bac0" stroke="#1d2327" stroke-width="2.5"></circle><text x="40" y="301.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">9</text></g><g onclick="ir('f2',7)"><circle cx="40" cy="322" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="325.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">7</text></g><g onclick="ir('f2',5)"><circle cx="40" cy="346" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="349.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">5</text></g><g onclick="ir('f2',3)"><circle cx="40" cy="370" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="373.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">3</text></g><g onclick="ir('f2',1)"><circle cx="40" cy="394" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="397.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">1</text></g><g onclick="ir('f2',29)"><circle cx="22" cy="22" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="22" y="25.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">29</text></g><g onclick="ir('f2',30)"><circle cx="59" cy="22" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="59" y="25.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">30</text></g><g onclick="ir('f2',31)"><circle cx="96" cy="22" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="96" y="25.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">31</text></g><g onclick="ir('f2',32)"><circle cx="133" cy="22" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="133" y="25.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">32</text></g><g onclick="ir('f2',33)"><circle cx="170" cy="22" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="170" y="25.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">33</text></g><g onclick="ir('f2',34)"><circle cx="207" cy="22" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="207" y="25.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">34</text></g><text x="22" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">Impulsor</text><text x="59" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">Distribuc</text><text x="96" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">Centrador</text><text x="133" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">Tensor</text><text x="170" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">Principal</text><text x="207" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">Prensa</text><g onclick="ir('f2',35)"><circle cx="80" cy="458" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="80" y="461.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">35</text></g><text x="80" y="480" font-size="7" text-anchor="middle" fill="#5f6b73">Tina exterior</text><g onclick="ir('f2',36)"><circle cx="150" cy="458" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="150" y="461.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">36</text></g><text x="150" y="480" font-size="7" text-anchor="middle" fill="#5f6b73">Tina interior</text></svg><div class="leg"><span class="chip c1">Normal bajo</span><span class="chip c2">Normal medio</span><span class="chip c3">Alarma</span><span class="chip c4">Amenaza</span><span>● borde negro = motriz · toque un polín para ir a su fila</span></div></div>
+ <div><table class="tp"><thead><tr><th>N°</th><th>Polín</th><th>Lado acople<br>(dB)</th><th>Lado libre<br>(dB)</th><th>Estado</th><th>Δ sem.<br>ant.</th><th>Tendencia</th><th>Lub.</th><th>Grasa<br>(g)</th><th>Cambio</th><th>Observación</th></tr></thead><tbody>
+ <tr class="grp"><td colspan="11">Polines especiales (posición 3 acople / 2 libre)</td></tr><tr id="row_f2_29"><td>29</td><td class="nm">Impulsor N°29<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="29" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="29" data-c="b" value=""></td>
+ <td id="e_f2_29"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_29"></td>
+ <td id="s_f2_29"></td>
+ <td><button class="lub " data-lub="29" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="29" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="29" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="29" data-c="ob" value=""></td></tr><tr id="row_f2_30"><td>30</td><td class="nm">Distribución N°30<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="30" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="30" data-c="b" value=""></td>
+ <td id="e_f2_30"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_30"></td>
+ <td id="s_f2_30"></td>
+ <td><button class="lub " data-lub="30" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="30" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="30" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="30" data-c="ob" value=""></td></tr><tr id="row_f2_31"><td>31</td><td class="nm">Centrador N°31<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="31" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="31" data-c="b" value=""></td>
+ <td id="e_f2_31"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_31"></td>
+ <td id="s_f2_31"></td>
+ <td><button class="lub " data-lub="31" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="31" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="31" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="31" data-c="ob" value=""></td></tr><tr id="row_f2_32"><td>32</td><td class="nm">Tensor N°32<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="32" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="32" data-c="b" value=""></td>
+ <td id="e_f2_32"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_32"></td>
+ <td id="s_f2_32"></td>
+ <td><button class="lub " data-lub="32" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="32" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="32" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="32" data-c="ob" value=""></td></tr><tr id="row_f2_33"><td>33</td><td class="nm">Principal N°33<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="33" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="33" data-c="b" value=""></td>
+ <td id="e_f2_33"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_33"></td>
+ <td id="s_f2_33"></td>
+ <td><button class="lub " data-lub="33" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="33" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="33" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="33" data-c="ob" value=""></td></tr><tr id="row_f2_34"><td>34</td><td class="nm">Prensa N°34<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="34" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="34" data-c="b" value=""></td>
+ <td id="e_f2_34"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_34"></td>
+ <td id="s_f2_34"></td>
+ <td><button class="lub " data-lub="34" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="34" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="34" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="34" data-c="ob" value=""></td></tr><tr id="row_f2_35"><td>35</td><td class="nm">Tina exterior N°35<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="35" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="35" data-c="b" value=""></td>
+ <td id="e_f2_35"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_35"></td>
+ <td id="s_f2_35"></td>
+ <td><button class="lub " data-lub="35" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="35" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="35" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="35" data-c="ob" value=""></td></tr><tr id="row_f2_36"><td>36</td><td class="nm">Tina interior N°36<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="36" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="36" data-c="b" value=""></td>
+ <td id="e_f2_36"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_36"></td>
+ <td id="s_f2_36"></td>
+ <td><button class="lub " data-lub="36" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="36" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="36" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="36" data-c="ob" value=""></td></tr>
+ <tr class="grp"><td colspan="11">Columna polines pares (posición 3 acople / 2 libre)</td></tr><tr id="row_f2_28"><td>28</td><td class="nm">Conducido N°28<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="28" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="28" data-c="b" value=""></td>
+ <td id="e_f2_28"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_28"></td>
+ <td id="s_f2_28"></td>
+ <td><button class="lub " data-lub="28" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="28" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="28" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="28" data-c="ob" value=""></td></tr><tr id="row_f2_26"><td>26</td><td class="nm">Conducido N°26<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="26" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="26" data-c="b" value=""></td>
+ <td id="e_f2_26"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_26"></td>
+ <td id="s_f2_26"></td>
+ <td><button class="lub " data-lub="26" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="26" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="26" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="26" data-c="ob" value=""></td></tr><tr id="row_f2_24"><td>24</td><td class="nm">Conducido N°24<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="24" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="24" data-c="b" value=""></td>
+ <td id="e_f2_24"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_24"></td>
+ <td id="s_f2_24"></td>
+ <td><button class="lub " data-lub="24" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="24" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="24" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="24" data-c="ob" value=""></td></tr><tr id="row_f2_22"><td>22</td><td class="nm">Conducido N°22<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="22" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="22" data-c="b" value=""></td>
+ <td id="e_f2_22"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_22"></td>
+ <td id="s_f2_22"></td>
+ <td><button class="lub " data-lub="22" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="22" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="22" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="22" data-c="ob" value=""></td></tr><tr id="row_f2_20"><td>20</td><td class="nm">Conducido N°20<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="20" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="20" data-c="b" value=""></td>
+ <td id="e_f2_20"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_20"></td>
+ <td id="s_f2_20"></td>
+ <td><button class="lub " data-lub="20" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="20" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="20" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="20" data-c="ob" value=""></td></tr><tr id="row_f2_18"><td>18</td><td class="nm">Motriz N°18<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="18" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="18" data-c="b" value=""></td>
+ <td id="e_f2_18"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_18"></td>
+ <td id="s_f2_18"></td>
+ <td><button class="lub " data-lub="18" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="18" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="18" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="18" data-c="ob" value=""></td></tr><tr id="row_f2_16"><td>16</td><td class="nm">Conducido N°16<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="16" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="16" data-c="b" value=""></td>
+ <td id="e_f2_16"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_16"></td>
+ <td id="s_f2_16"></td>
+ <td><button class="lub " data-lub="16" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="16" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="16" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="16" data-c="ob" value=""></td></tr><tr id="row_f2_14"><td>14</td><td class="nm">Conducido N°14<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="14" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="14" data-c="b" value=""></td>
+ <td id="e_f2_14"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_14"></td>
+ <td id="s_f2_14"></td>
+ <td><button class="lub " data-lub="14" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="14" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="14" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="14" data-c="ob" value=""></td></tr><tr id="row_f2_12"><td>12</td><td class="nm">Motriz N°12<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="12" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="12" data-c="b" value=""></td>
+ <td id="e_f2_12"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_12"></td>
+ <td id="s_f2_12"></td>
+ <td><button class="lub " data-lub="12" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="12" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="12" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="12" data-c="ob" value=""></td></tr><tr id="row_f2_10"><td>10</td><td class="nm">Conducido N°10<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="10" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="10" data-c="b" value=""></td>
+ <td id="e_f2_10"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_10"></td>
+ <td id="s_f2_10"></td>
+ <td><button class="lub " data-lub="10" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="10" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="10" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="10" data-c="ob" value=""></td></tr><tr id="row_f2_8"><td>8</td><td class="nm">Conducido N°8<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="8" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="8" data-c="b" value=""></td>
+ <td id="e_f2_8"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_8"></td>
+ <td id="s_f2_8"></td>
+ <td><button class="lub " data-lub="8" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="8" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="8" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="8" data-c="ob" value=""></td></tr><tr id="row_f2_6"><td>6</td><td class="nm">Motriz N°6<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="6" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="6" data-c="b" value=""></td>
+ <td id="e_f2_6"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_6"></td>
+ <td id="s_f2_6"></td>
+ <td><button class="lub " data-lub="6" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="6" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="6" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="6" data-c="ob" value=""></td></tr><tr id="row_f2_4"><td>4</td><td class="nm">Conducido N°4<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="4" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="4" data-c="b" value=""></td>
+ <td id="e_f2_4"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_4"></td>
+ <td id="s_f2_4"></td>
+ <td><button class="lub " data-lub="4" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="4" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="4" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="4" data-c="ob" value=""></td></tr><tr id="row_f2_2"><td>2</td><td class="nm">Conducido N°2<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="2" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="2" data-c="b" value=""></td>
+ <td id="e_f2_2"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_2"></td>
+ <td id="s_f2_2"></td>
+ <td><button class="lub " data-lub="2" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="2" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="2" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="2" data-c="ob" value=""></td></tr><tr id="row_f2_0"><td>0</td><td class="nm">Conducido N°0<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="0" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="0" data-c="b" value=""></td>
+ <td id="e_f2_0"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_0"></td>
+ <td id="s_f2_0"></td>
+ <td><button class="lub " data-lub="0" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="0" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="0" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="0" data-c="ob" value=""></td></tr>
+ <tr class="grp"><td colspan="11">Columna polines impares (posición 1 acople / 4 libre)</td></tr><tr id="row_f2_27"><td>27</td><td class="nm">Conducido N°27<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="27" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="27" data-c="b" value=""></td>
+ <td id="e_f2_27"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_27"></td>
+ <td id="s_f2_27"></td>
+ <td><button class="lub " data-lub="27" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="27" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="27" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="27" data-c="ob" value=""></td></tr><tr id="row_f2_25"><td>25</td><td class="nm">Conducido N°25<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="25" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="25" data-c="b" value=""></td>
+ <td id="e_f2_25"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_25"></td>
+ <td id="s_f2_25"></td>
+ <td><button class="lub " data-lub="25" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="25" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="25" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="25" data-c="ob" value=""></td></tr><tr id="row_f2_23"><td>23</td><td class="nm">Conducido N°23<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="23" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="23" data-c="b" value=""></td>
+ <td id="e_f2_23"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_23"></td>
+ <td id="s_f2_23"></td>
+ <td><button class="lub " data-lub="23" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="23" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="23" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="23" data-c="ob" value=""></td></tr><tr id="row_f2_21"><td>21</td><td class="nm">Motriz N°21<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="21" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="21" data-c="b" value=""></td>
+ <td id="e_f2_21"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_21"></td>
+ <td id="s_f2_21"></td>
+ <td><button class="lub " data-lub="21" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="21" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="21" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="21" data-c="ob" value=""></td></tr><tr id="row_f2_19"><td>19</td><td class="nm">Conducido N°19<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="19" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="19" data-c="b" value=""></td>
+ <td id="e_f2_19"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_19"></td>
+ <td id="s_f2_19"></td>
+ <td><button class="lub " data-lub="19" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="19" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="19" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="19" data-c="ob" value=""></td></tr><tr id="row_f2_17"><td>17</td><td class="nm">Conducido N°17<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="17" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="17" data-c="b" value=""></td>
+ <td id="e_f2_17"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_17"></td>
+ <td id="s_f2_17"></td>
+ <td><button class="lub " data-lub="17" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="17" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="17" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="17" data-c="ob" value=""></td></tr><tr id="row_f2_15"><td>15</td><td class="nm">Motriz N°15<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="15" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="15" data-c="b" value=""></td>
+ <td id="e_f2_15"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_15"></td>
+ <td id="s_f2_15"></td>
+ <td><button class="lub " data-lub="15" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="15" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="15" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="15" data-c="ob" value=""></td></tr><tr id="row_f2_13"><td>13</td><td class="nm">Conducido N°13<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="13" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="13" data-c="b" value=""></td>
+ <td id="e_f2_13"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_13"></td>
+ <td id="s_f2_13"></td>
+ <td><button class="lub " data-lub="13" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="13" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="13" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="13" data-c="ob" value=""></td></tr><tr id="row_f2_11"><td>11</td><td class="nm">Conducido N°11<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="11" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="11" data-c="b" value=""></td>
+ <td id="e_f2_11"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_11"></td>
+ <td id="s_f2_11"></td>
+ <td><button class="lub " data-lub="11" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="11" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="11" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="11" data-c="ob" value=""></td></tr><tr id="row_f2_9"><td>9</td><td class="nm">Motriz N°9<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="9" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="9" data-c="b" value=""></td>
+ <td id="e_f2_9"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_9"></td>
+ <td id="s_f2_9"></td>
+ <td><button class="lub " data-lub="9" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="9" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="9" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="9" data-c="ob" value=""></td></tr><tr id="row_f2_7"><td>7</td><td class="nm">Conducido N°7<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="7" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="7" data-c="b" value=""></td>
+ <td id="e_f2_7"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_7"></td>
+ <td id="s_f2_7"></td>
+ <td><button class="lub " data-lub="7" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="7" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="7" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="7" data-c="ob" value=""></td></tr><tr id="row_f2_5"><td>5</td><td class="nm">Conducido N°5<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="5" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="5" data-c="b" value=""></td>
+ <td id="e_f2_5"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_5"></td>
+ <td id="s_f2_5"></td>
+ <td><button class="lub " data-lub="5" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="5" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="5" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="5" data-c="ob" value=""></td></tr><tr id="row_f2_3"><td>3</td><td class="nm">Conducido N°3<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="3" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="3" data-c="b" value=""></td>
+ <td id="e_f2_3"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_3"></td>
+ <td id="s_f2_3"></td>
+ <td><button class="lub " data-lub="3" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="3" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="3" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="3" data-c="ob" value=""></td></tr><tr id="row_f2_1"><td>1</td><td class="nm">Conducido N°1<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="1" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="1" data-c="b" value=""></td>
+ <td id="e_f2_1"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f2_1"></td>
+ <td id="s_f2_1"></td>
+ <td><button class="lub " data-lub="1" data-f="f2">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f2" data-n="1" data-c="g" value=""></td>
+ <td><select data-f="f2" data-n="1" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f2" data-n="1" data-c="ob" value=""></td></tr>
+ <tr class="grp"><td colspan="11">Motores hidráulicos de polines motrices (dB)</td></tr>
+ <tr><td>M18</td><td class="nm">Motor Motriz N°18<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="M18" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="M18" data-c="b" value=""></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_f2_M18"></td><td id="s_f2_M18"></td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="f2" data-n="M18" data-c="ob" value=""></td></tr><tr><td>M12</td><td class="nm">Motor Motriz N°12<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="M12" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="M12" data-c="b" value=""></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_f2_M12"></td><td id="s_f2_M12"></td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="f2" data-n="M12" data-c="ob" value=""></td></tr><tr><td>M6</td><td class="nm">Motor Motriz N°6<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="M6" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="M6" data-c="b" value=""></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_f2_M6"></td><td id="s_f2_M6"></td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="f2" data-n="M6" data-c="ob" value=""></td></tr><tr><td>M21</td><td class="nm">Motor Motriz N°21<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="M21" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="M21" data-c="b" value=""></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_f2_M21"></td><td id="s_f2_M21"></td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="f2" data-n="M21" data-c="ob" value=""></td></tr><tr><td>M15</td><td class="nm">Motor Motriz N°15<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="M15" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="M15" data-c="b" value=""></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_f2_M15"></td><td id="s_f2_M15"></td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="f2" data-n="M15" data-c="ob" value=""></td></tr><tr><td>M9</td><td class="nm">Motor Motriz N°9<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="M9" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f2" data-n="M9" data-c="b" value=""></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_f2_M9"></td><td id="s_f2_M9"></td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="f2" data-n="M9" data-c="ob" value=""></td></tr>
+ </tbody></table></div></div></div><div class="filtro " id="F_f3">
+ <div class="fhead"><h2>0621-FL-1101 – Filtro Larox PF 156 (Nueva Centinela)</h2><label>Estado del filtro <select data-est="f3"><option selected=""></option><option>Operando</option><option>Detenido</option><option>En mantención</option><option>Fuera de servicio</option></select></label></div>
+ <div class="aviso">⚠ <b>Disposición por confirmar:</b> se cargó la misma numeración de los filtros 621-FL-001/002 (polines 0–36). El 0621-FL-1101 (PF 156/156 M60) puede tener otra cantidad de rodillos de placa; verifíquela en terreno y ajústela con <b>Editar polines</b>.</div>
+ <div class="ftools noprint"><button onclick="lubTodos('f3')">🛢 Marcar todos lubricados</button><button class="" onclick="S.edit=S.edit=='f3'?null:'f3';render()">✏ Editar polines</button></div>
+ <div class="res" id="res_f3"><div><b style="color:#1f8a4c">0</b>Normal bajo</div><div><b style="color:#7cb342">0</b>Normal medio</div><div><b style="color:#e0a800">0</b>Alarma</div><div><b style="color:#c62828">0</b>Amenaza</div><div><b>0/37</b>Lubricados</div></div>
+ <div class="grid2"><div class="mapa" id="map_f3"><svg viewBox="0 0 230 500"><rect x="70" y="56" width="90" height="366" fill="#e6ebee" stroke="#9aa6ad"></rect><text x="115" y="242" font-size="9" fill="#5f6b73" text-anchor="middle" transform="rotate(-90 115 242)">PAQUETE DE PLACAS</text><text x="40" y="52" font-size="8.5" text-anchor="middle" fill="#5f6b73">P1 · P4</text><text x="190" y="52" font-size="8.5" text-anchor="middle" fill="#5f6b73">P3 · P2</text><g onclick="ir('f3',28)"><circle cx="190" cy="70" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="73.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">28</text></g><g onclick="ir('f3',26)"><circle cx="190" cy="94" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="97.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">26</text></g><g onclick="ir('f3',24)"><circle cx="190" cy="118" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="121.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">24</text></g><g onclick="ir('f3',22)"><circle cx="190" cy="142" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="145.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">22</text></g><g onclick="ir('f3',20)"><circle cx="190" cy="166" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="169.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">20</text></g><g onclick="ir('f3',18)"><circle cx="190" cy="190" r="10" fill="#b0bac0" stroke="#1d2327" stroke-width="2.5"></circle><text x="190" y="193.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">18</text></g><g onclick="ir('f3',16)"><circle cx="190" cy="214" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="217.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">16</text></g><g onclick="ir('f3',14)"><circle cx="190" cy="238" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="241.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">14</text></g><g onclick="ir('f3',12)"><circle cx="190" cy="262" r="10" fill="#b0bac0" stroke="#1d2327" stroke-width="2.5"></circle><text x="190" y="265.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">12</text></g><g onclick="ir('f3',10)"><circle cx="190" cy="286" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="289.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">10</text></g><g onclick="ir('f3',8)"><circle cx="190" cy="310" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="313.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">8</text></g><g onclick="ir('f3',6)"><circle cx="190" cy="334" r="10" fill="#b0bac0" stroke="#1d2327" stroke-width="2.5"></circle><text x="190" y="337.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">6</text></g><g onclick="ir('f3',4)"><circle cx="190" cy="358" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="361.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">4</text></g><g onclick="ir('f3',2)"><circle cx="190" cy="382" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="385.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">2</text></g><g onclick="ir('f3',0)"><circle cx="190" cy="406" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="190" y="409.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">0</text></g><g onclick="ir('f3',27)"><circle cx="40" cy="82" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="85.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">27</text></g><g onclick="ir('f3',25)"><circle cx="40" cy="106" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="109.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">25</text></g><g onclick="ir('f3',23)"><circle cx="40" cy="130" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="133.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">23</text></g><g onclick="ir('f3',21)"><circle cx="40" cy="154" r="10" fill="#b0bac0" stroke="#1d2327" stroke-width="2.5"></circle><text x="40" y="157.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">21</text></g><g onclick="ir('f3',19)"><circle cx="40" cy="178" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="181.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">19</text></g><g onclick="ir('f3',17)"><circle cx="40" cy="202" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="205.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">17</text></g><g onclick="ir('f3',15)"><circle cx="40" cy="226" r="10" fill="#b0bac0" stroke="#1d2327" stroke-width="2.5"></circle><text x="40" y="229.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">15</text></g><g onclick="ir('f3',13)"><circle cx="40" cy="250" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="253.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">13</text></g><g onclick="ir('f3',11)"><circle cx="40" cy="274" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="277.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">11</text></g><g onclick="ir('f3',9)"><circle cx="40" cy="298" r="10" fill="#b0bac0" stroke="#1d2327" stroke-width="2.5"></circle><text x="40" y="301.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">9</text></g><g onclick="ir('f3',7)"><circle cx="40" cy="322" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="325.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">7</text></g><g onclick="ir('f3',5)"><circle cx="40" cy="346" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="349.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">5</text></g><g onclick="ir('f3',3)"><circle cx="40" cy="370" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="373.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">3</text></g><g onclick="ir('f3',1)"><circle cx="40" cy="394" r="10" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="40" y="397.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">1</text></g><g onclick="ir('f3',29)"><circle cx="22" cy="22" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="22" y="25.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">29</text></g><g onclick="ir('f3',30)"><circle cx="59" cy="22" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="59" y="25.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">30</text></g><g onclick="ir('f3',31)"><circle cx="96" cy="22" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="96" y="25.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">31</text></g><g onclick="ir('f3',32)"><circle cx="133" cy="22" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="133" y="25.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">32</text></g><g onclick="ir('f3',33)"><circle cx="170" cy="22" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="170" y="25.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">33</text></g><g onclick="ir('f3',34)"><circle cx="207" cy="22" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="207" y="25.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">34</text></g><text x="22" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">Impulsor</text><text x="59" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">Distribuc</text><text x="96" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">Centrador</text><text x="133" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">Tensor</text><text x="170" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">Principal</text><text x="207" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">Prensa</text><g onclick="ir('f3',35)"><circle cx="80" cy="458" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="80" y="461.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">35</text></g><text x="80" y="480" font-size="7" text-anchor="middle" fill="#5f6b73">Tina exterior</text><g onclick="ir('f3',36)"><circle cx="150" cy="458" r="11" fill="#b0bac0" stroke="#fff" stroke-width="1"></circle><text x="150" y="461.5" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold" pointer-events="none">36</text></g><text x="150" y="480" font-size="7" text-anchor="middle" fill="#5f6b73">Tina interior</text></svg><div class="leg"><span class="chip c1">Normal bajo</span><span class="chip c2">Normal medio</span><span class="chip c3">Alarma</span><span class="chip c4">Amenaza</span><span>● borde negro = motriz · toque un polín para ir a su fila</span></div></div>
+ <div><table class="tp"><thead><tr><th>N°</th><th>Polín</th><th>Lado acople<br>(dB)</th><th>Lado libre<br>(dB)</th><th>Estado</th><th>Δ sem.<br>ant.</th><th>Tendencia</th><th>Lub.</th><th>Grasa<br>(g)</th><th>Cambio</th><th>Observación</th></tr></thead><tbody>
+ <tr class="grp"><td colspan="11">Polines especiales (posición 3 acople / 2 libre)</td></tr><tr id="row_f3_29"><td>29</td><td class="nm">Impulsor N°29<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="29" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="29" data-c="b" value=""></td>
+ <td id="e_f3_29"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_29"></td>
+ <td id="s_f3_29"></td>
+ <td><button class="lub " data-lub="29" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="29" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="29" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="29" data-c="ob" value=""></td></tr><tr id="row_f3_30"><td>30</td><td class="nm">Distribución N°30<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="30" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="30" data-c="b" value=""></td>
+ <td id="e_f3_30"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_30"></td>
+ <td id="s_f3_30"></td>
+ <td><button class="lub " data-lub="30" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="30" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="30" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="30" data-c="ob" value=""></td></tr><tr id="row_f3_31"><td>31</td><td class="nm">Centrador N°31<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="31" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="31" data-c="b" value=""></td>
+ <td id="e_f3_31"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_31"></td>
+ <td id="s_f3_31"></td>
+ <td><button class="lub " data-lub="31" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="31" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="31" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="31" data-c="ob" value=""></td></tr><tr id="row_f3_32"><td>32</td><td class="nm">Tensor N°32<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="32" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="32" data-c="b" value=""></td>
+ <td id="e_f3_32"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_32"></td>
+ <td id="s_f3_32"></td>
+ <td><button class="lub " data-lub="32" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="32" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="32" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="32" data-c="ob" value=""></td></tr><tr id="row_f3_33"><td>33</td><td class="nm">Principal N°33<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="33" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="33" data-c="b" value=""></td>
+ <td id="e_f3_33"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_33"></td>
+ <td id="s_f3_33"></td>
+ <td><button class="lub " data-lub="33" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="33" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="33" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="33" data-c="ob" value=""></td></tr><tr id="row_f3_34"><td>34</td><td class="nm">Prensa N°34<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="34" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="34" data-c="b" value=""></td>
+ <td id="e_f3_34"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_34"></td>
+ <td id="s_f3_34"></td>
+ <td><button class="lub " data-lub="34" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="34" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="34" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="34" data-c="ob" value=""></td></tr><tr id="row_f3_35"><td>35</td><td class="nm">Tina exterior N°35<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="35" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="35" data-c="b" value=""></td>
+ <td id="e_f3_35"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_35"></td>
+ <td id="s_f3_35"></td>
+ <td><button class="lub " data-lub="35" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="35" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="35" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="35" data-c="ob" value=""></td></tr><tr id="row_f3_36"><td>36</td><td class="nm">Tina interior N°36<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="36" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="36" data-c="b" value=""></td>
+ <td id="e_f3_36"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_36"></td>
+ <td id="s_f3_36"></td>
+ <td><button class="lub " data-lub="36" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="36" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="36" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="36" data-c="ob" value=""></td></tr>
+ <tr class="grp"><td colspan="11">Columna polines pares (posición 3 acople / 2 libre)</td></tr><tr id="row_f3_28"><td>28</td><td class="nm">Conducido N°28<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="28" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="28" data-c="b" value=""></td>
+ <td id="e_f3_28"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_28"></td>
+ <td id="s_f3_28"></td>
+ <td><button class="lub " data-lub="28" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="28" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="28" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="28" data-c="ob" value=""></td></tr><tr id="row_f3_26"><td>26</td><td class="nm">Conducido N°26<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="26" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="26" data-c="b" value=""></td>
+ <td id="e_f3_26"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_26"></td>
+ <td id="s_f3_26"></td>
+ <td><button class="lub " data-lub="26" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="26" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="26" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="26" data-c="ob" value=""></td></tr><tr id="row_f3_24"><td>24</td><td class="nm">Conducido N°24<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="24" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="24" data-c="b" value=""></td>
+ <td id="e_f3_24"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_24"></td>
+ <td id="s_f3_24"></td>
+ <td><button class="lub " data-lub="24" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="24" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="24" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="24" data-c="ob" value=""></td></tr><tr id="row_f3_22"><td>22</td><td class="nm">Conducido N°22<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="22" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="22" data-c="b" value=""></td>
+ <td id="e_f3_22"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_22"></td>
+ <td id="s_f3_22"></td>
+ <td><button class="lub " data-lub="22" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="22" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="22" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="22" data-c="ob" value=""></td></tr><tr id="row_f3_20"><td>20</td><td class="nm">Conducido N°20<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="20" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="20" data-c="b" value=""></td>
+ <td id="e_f3_20"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_20"></td>
+ <td id="s_f3_20"></td>
+ <td><button class="lub " data-lub="20" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="20" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="20" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="20" data-c="ob" value=""></td></tr><tr id="row_f3_18"><td>18</td><td class="nm">Motriz N°18<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="18" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="18" data-c="b" value=""></td>
+ <td id="e_f3_18"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_18"></td>
+ <td id="s_f3_18"></td>
+ <td><button class="lub " data-lub="18" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="18" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="18" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="18" data-c="ob" value=""></td></tr><tr id="row_f3_16"><td>16</td><td class="nm">Conducido N°16<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="16" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="16" data-c="b" value=""></td>
+ <td id="e_f3_16"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_16"></td>
+ <td id="s_f3_16"></td>
+ <td><button class="lub " data-lub="16" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="16" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="16" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="16" data-c="ob" value=""></td></tr><tr id="row_f3_14"><td>14</td><td class="nm">Conducido N°14<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="14" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="14" data-c="b" value=""></td>
+ <td id="e_f3_14"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_14"></td>
+ <td id="s_f3_14"></td>
+ <td><button class="lub " data-lub="14" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="14" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="14" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="14" data-c="ob" value=""></td></tr><tr id="row_f3_12"><td>12</td><td class="nm">Motriz N°12<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="12" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="12" data-c="b" value=""></td>
+ <td id="e_f3_12"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_12"></td>
+ <td id="s_f3_12"></td>
+ <td><button class="lub " data-lub="12" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="12" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="12" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="12" data-c="ob" value=""></td></tr><tr id="row_f3_10"><td>10</td><td class="nm">Conducido N°10<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="10" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="10" data-c="b" value=""></td>
+ <td id="e_f3_10"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_10"></td>
+ <td id="s_f3_10"></td>
+ <td><button class="lub " data-lub="10" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="10" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="10" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="10" data-c="ob" value=""></td></tr><tr id="row_f3_8"><td>8</td><td class="nm">Conducido N°8<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="8" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="8" data-c="b" value=""></td>
+ <td id="e_f3_8"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_8"></td>
+ <td id="s_f3_8"></td>
+ <td><button class="lub " data-lub="8" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="8" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="8" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="8" data-c="ob" value=""></td></tr><tr id="row_f3_6"><td>6</td><td class="nm">Motriz N°6<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="6" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="6" data-c="b" value=""></td>
+ <td id="e_f3_6"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_6"></td>
+ <td id="s_f3_6"></td>
+ <td><button class="lub " data-lub="6" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="6" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="6" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="6" data-c="ob" value=""></td></tr><tr id="row_f3_4"><td>4</td><td class="nm">Conducido N°4<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="4" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="4" data-c="b" value=""></td>
+ <td id="e_f3_4"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_4"></td>
+ <td id="s_f3_4"></td>
+ <td><button class="lub " data-lub="4" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="4" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="4" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="4" data-c="ob" value=""></td></tr><tr id="row_f3_2"><td>2</td><td class="nm">Conducido N°2<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="2" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="2" data-c="b" value=""></td>
+ <td id="e_f3_2"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_2"></td>
+ <td id="s_f3_2"></td>
+ <td><button class="lub " data-lub="2" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="2" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="2" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="2" data-c="ob" value=""></td></tr><tr id="row_f3_0"><td>0</td><td class="nm">Conducido N°0<small>P3 · P2</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="0" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="0" data-c="b" value=""></td>
+ <td id="e_f3_0"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_0"></td>
+ <td id="s_f3_0"></td>
+ <td><button class="lub " data-lub="0" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="0" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="0" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="0" data-c="ob" value=""></td></tr>
+ <tr class="grp"><td colspan="11">Columna polines impares (posición 1 acople / 4 libre)</td></tr><tr id="row_f3_27"><td>27</td><td class="nm">Conducido N°27<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="27" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="27" data-c="b" value=""></td>
+ <td id="e_f3_27"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_27"></td>
+ <td id="s_f3_27"></td>
+ <td><button class="lub " data-lub="27" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="27" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="27" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="27" data-c="ob" value=""></td></tr><tr id="row_f3_25"><td>25</td><td class="nm">Conducido N°25<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="25" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="25" data-c="b" value=""></td>
+ <td id="e_f3_25"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_25"></td>
+ <td id="s_f3_25"></td>
+ <td><button class="lub " data-lub="25" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="25" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="25" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="25" data-c="ob" value=""></td></tr><tr id="row_f3_23"><td>23</td><td class="nm">Conducido N°23<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="23" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="23" data-c="b" value=""></td>
+ <td id="e_f3_23"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_23"></td>
+ <td id="s_f3_23"></td>
+ <td><button class="lub " data-lub="23" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="23" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="23" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="23" data-c="ob" value=""></td></tr><tr id="row_f3_21"><td>21</td><td class="nm">Motriz N°21<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="21" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="21" data-c="b" value=""></td>
+ <td id="e_f3_21"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_21"></td>
+ <td id="s_f3_21"></td>
+ <td><button class="lub " data-lub="21" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="21" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="21" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="21" data-c="ob" value=""></td></tr><tr id="row_f3_19"><td>19</td><td class="nm">Conducido N°19<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="19" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="19" data-c="b" value=""></td>
+ <td id="e_f3_19"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_19"></td>
+ <td id="s_f3_19"></td>
+ <td><button class="lub " data-lub="19" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="19" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="19" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="19" data-c="ob" value=""></td></tr><tr id="row_f3_17"><td>17</td><td class="nm">Conducido N°17<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="17" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="17" data-c="b" value=""></td>
+ <td id="e_f3_17"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_17"></td>
+ <td id="s_f3_17"></td>
+ <td><button class="lub " data-lub="17" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="17" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="17" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="17" data-c="ob" value=""></td></tr><tr id="row_f3_15"><td>15</td><td class="nm">Motriz N°15<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="15" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="15" data-c="b" value=""></td>
+ <td id="e_f3_15"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_15"></td>
+ <td id="s_f3_15"></td>
+ <td><button class="lub " data-lub="15" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="15" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="15" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="15" data-c="ob" value=""></td></tr><tr id="row_f3_13"><td>13</td><td class="nm">Conducido N°13<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="13" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="13" data-c="b" value=""></td>
+ <td id="e_f3_13"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_13"></td>
+ <td id="s_f3_13"></td>
+ <td><button class="lub " data-lub="13" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="13" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="13" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="13" data-c="ob" value=""></td></tr><tr id="row_f3_11"><td>11</td><td class="nm">Conducido N°11<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="11" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="11" data-c="b" value=""></td>
+ <td id="e_f3_11"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_11"></td>
+ <td id="s_f3_11"></td>
+ <td><button class="lub " data-lub="11" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="11" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="11" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="11" data-c="ob" value=""></td></tr><tr id="row_f3_9"><td>9</td><td class="nm">Motriz N°9<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="9" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="9" data-c="b" value=""></td>
+ <td id="e_f3_9"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_9"></td>
+ <td id="s_f3_9"></td>
+ <td><button class="lub " data-lub="9" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="9" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="9" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="9" data-c="ob" value=""></td></tr><tr id="row_f3_7"><td>7</td><td class="nm">Conducido N°7<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="7" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="7" data-c="b" value=""></td>
+ <td id="e_f3_7"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_7"></td>
+ <td id="s_f3_7"></td>
+ <td><button class="lub " data-lub="7" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="7" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="7" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="7" data-c="ob" value=""></td></tr><tr id="row_f3_5"><td>5</td><td class="nm">Conducido N°5<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="5" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="5" data-c="b" value=""></td>
+ <td id="e_f3_5"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_5"></td>
+ <td id="s_f3_5"></td>
+ <td><button class="lub " data-lub="5" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="5" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="5" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="5" data-c="ob" value=""></td></tr><tr id="row_f3_3"><td>3</td><td class="nm">Conducido N°3<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="3" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="3" data-c="b" value=""></td>
+ <td id="e_f3_3"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_3"></td>
+ <td id="s_f3_3"></td>
+ <td><button class="lub " data-lub="3" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="3" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="3" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="3" data-c="ob" value=""></td></tr><tr id="row_f3_1"><td>1</td><td class="nm">Conducido N°1<small>P1 · P4</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="1" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="1" data-c="b" value=""></td>
+ <td id="e_f3_1"><span class="chip c0">Sin dato</span></td>
+ <td id="d_f3_1"></td>
+ <td id="s_f3_1"></td>
+ <td><button class="lub " data-lub="1" data-f="f3">○</button></td>
+ <td><input class="g" inputmode="decimal" data-f="f3" data-n="1" data-c="g" value=""></td>
+ <td><select data-f="f3" data-n="1" data-c="cb"><option></option><option>Rod. acople</option><option>Rod. libre</option><option>Completo</option></select></td>
+ <td><input class="ob" data-f="f3" data-n="1" data-c="ob" value=""></td></tr>
+ <tr class="grp"><td colspan="11">Motores hidráulicos de polines motrices (dB)</td></tr>
+ <tr><td>M18</td><td class="nm">Motor Motriz N°18<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="M18" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="M18" data-c="b" value=""></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_f3_M18"></td><td id="s_f3_M18"></td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="f3" data-n="M18" data-c="ob" value=""></td></tr><tr><td>M12</td><td class="nm">Motor Motriz N°12<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="M12" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="M12" data-c="b" value=""></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_f3_M12"></td><td id="s_f3_M12"></td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="f3" data-n="M12" data-c="ob" value=""></td></tr><tr><td>M6</td><td class="nm">Motor Motriz N°6<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="M6" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="M6" data-c="b" value=""></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_f3_M6"></td><td id="s_f3_M6"></td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="f3" data-n="M6" data-c="ob" value=""></td></tr><tr><td>M21</td><td class="nm">Motor Motriz N°21<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="M21" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="M21" data-c="b" value=""></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_f3_M21"></td><td id="s_f3_M21"></td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="f3" data-n="M21" data-c="ob" value=""></td></tr><tr><td>M15</td><td class="nm">Motor Motriz N°15<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="M15" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="M15" data-c="b" value=""></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_f3_M15"></td><td id="s_f3_M15"></td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="f3" data-n="M15" data-c="ob" value=""></td></tr><tr><td>M9</td><td class="nm">Motor Motriz N°9<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="M9" data-c="a" value=""></td>
+ <td><input class="db" inputmode="decimal" data-f="f3" data-n="M9" data-c="b" value=""></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_f3_M9"></td><td id="s_f3_M9"></td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="f3" data-n="M9" data-c="ob" value=""></td></tr>
+ </tbody></table></div></div></div></div>
+
+  <div class="sec">
+    <h2>HALLAZGOS DE LA SEMANA <small>Se genera solo: alarma, amenaza, aumento ≥ <input id="umbralD" style="width:30px;color:#fff;border-bottom:1px solid #fff;text-align:center;padding:0" data-lim="dd"> dB o sin lubricar</small></h2>
+    <table class="hall"><thead><tr><th>Filtro</th><th>Polín</th><th>Lectura máx (dB)</th><th>Δ</th><th>Estado</th><th>Motivo</th></tr></thead><tbody id="hall"><tr><td colspan="6" style="text-align:center;color:#5f6b73">Sin hallazgos registrados</td></tr></tbody></table>
+  </div>
+
+  <div class="sec">
+    <h2>OBSERVACIONES Y RECOMENDACIONES</h2>
+    <textarea data-k="obs" rows="4" placeholder="Condiciones encontradas, polines a cambiar, solicitudes de aviso SAP..."></textarea>
+  </div>
+
+  <div class="firmas" id="firmas"><div><b>Ejecutado por (Lubricador / Inspector)</b><input data-k="fn0" placeholder="Nombre"><div class="fl"><canvas id="sg0" width="600" height="84"></canvas></div><div class="lbl"><span>Firma</span><a onclick="borraFirma(0)">borrar</a></div><input type="date" data-k="fd0"></div><div><b>Revisado por (Confiabilidad)</b><input data-k="fn1" placeholder="Nombre"><div class="fl"><canvas id="sg1" width="600" height="84"></canvas></div><div class="lbl"><span>Firma</span><a onclick="borraFirma(1)">borrar</a></div><input type="date" data-k="fd1"></div><div><b>Jefe de Turno Mecánico</b><input data-k="fn2" placeholder="Nombre"><div class="fl"><canvas id="sg2" width="600" height="84"></canvas></div><div class="lbl"><span>Firma</span><a onclick="borraFirma(2)">borrar</a></div><input type="date" data-k="fd2"></div></div>
+  <div class="foot"><span>Ruta semanal polines – Filtros Larox 621-FL-001 / 621-FL-002 / 0621-FL-1101</span><span id="fpie">S45_2026 · 2026-11-06</span></div>
+</div>
+</div>
+
+<script>
+const FILTROS=[
+ {id:'f1',tag:'621-FL-001',nom:'Filtro Larox N°1'},
+ {id:'f2',tag:'621-FL-002',nom:'Filtro Larox N°2'},
+ {id:'f3',tag:'0621-FL-1101',nom:'Filtro Larox PF 156 (Nueva Centinela)',pend:true}];
+const IZQ=[27,25,23,21,19,17,15,13,11,9,7,5,3,1], DER=[28,26,24,22,20,18,16,14,12,10,8,6,4,2,0], MOT=[6,9,12,15,18,21];
+const ESP={29:'Impulsor',30:'Distribución',31:'Centrador',32:'Tensor',33:'Principal',34:'Prensa',35:'Tina exterior',36:'Tina interior'};
+const INST_F1={0:'2023-06-28',1:'2023-01-31',2:'2023-01-31',3:'2023-12-20',4:'2023-12-06',5:'2023-12-06',6:'2023-12-05',7:'2023-12-05',8:'2023-12-05',9:'2023-12-05',10:'2023-12-05',11:'2023-11-08',12:'2023-11-08',13:'2023-11-08',14:'2023-10-18',15:'2023-11-08',16:'2023-10-18',17:'2023-10-18',18:'2023-11-24',19:'2023-10-18',20:'2023-10-11',21:'2023-11-24',22:'2023-10-11',23:'2023-10-11',24:'2023-10-11',25:'2023-09-28',26:'2023-09-28',27:'2023-09-28',28:'2023-09-28',29:'2018-03-10',30:'2018-03-10',31:'2023-01-31',32:'2023-01-31',33:'2023-01-31',34:'2023-01-31',35:'2023-01-31',36:'2023-01-31'};
+const LIMDEF={g1:8,g2:18.5,g3:35,m1:13.6,m2:28.7,m3:38.4,dd:5};
+const EST=['Sin dato','Normal bajo','Normal medio','Alarma','Amenaza'];
+
+function layoutDef(fid){const L=[];
+ const nm=n=>ESP[n]?`${ESP[n]} N°${n}`:(MOT.includes(n)?`Motriz N°${n}`:`Conducido N°${n}`);
+ Object.keys(ESP).forEach(k=>L.push({n:+k,nom:nm(+k),lado:'D',mot:false,col:'E'}));
+ DER.forEach(n=>L.push({n,nom:nm(n),lado:'D',mot:MOT.includes(n),col:'D'}));
+ IZQ.forEach(n=>L.push({n,nom:nm(n),lado:'I',mot:MOT.includes(n),col:'I'}));
+ if(fid=='f1')L.forEach(r=>r.inst=INST_F1[r.n]||'');
+ return L;}
+
+let S={f:{},lim:{...LIMDEF},lay:{},r:{},hist:{},est:{},sig:{},tab:'f1'};
+const LS='ruta_polines_larox_v1';
+function load(){try{const j=localStorage.getItem(LS);if(j)S=Object.assign(S,JSON.parse(j))}catch(e){}
+ S.lim=Object.assign({...LIMDEF},S.lim||{});FILTROS.forEach(f=>{if(!S.lay[f.id])S.lay[f.id]=layoutDef(f.id);if(!S.r[f.id])S.r[f.id]={}});}
+function save(){try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}}
+const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+const num=v=>{const x=parseFloat(String(v??'').replace(',','.'));return isNaN(x)?null:x};
+function isoWeek(d){d=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));const day=d.getUTCDay()||7;d.setUTCDate(d.getUTCDate()+4-day);const y=new Date(Date.UTC(d.getUTCFullYear(),0,1));return [d.getUTCFullYear(),Math.ceil(((d-y)/864e5+1)/7)]}
+function semKey(){return S.f.semana||'S?'}
+
+function estado(v,mot){if(v===null)return 0;const L=S.lim;const a=mot?[L.m1,L.m2,L.m3]:[L.g1,L.g2,L.g3];return v<a[0]?1:v<a[1]?2:v<a[2]?3:4}
+function rd(fid,n){return S.r[fid][n]||(S.r[fid][n]={})}
+function maxR(o){const v=[num(o.a),num(o.b)].filter(x=>x!==null);return v.length?Math.max(...v):null}
+function prevOf(fid,n){const ks=Object.keys(S.hist).filter(k=>k!==semKey()).sort(sortSem);for(let i=ks.length-1;i>=0;i--){const h=S.hist[ks[i]];if(h&&h[fid]&&h[fid][n]&&maxR(h[fid][n])!==null)return h[fid][n]}return null}
+function sortSem(a,b){const p=s=>{const m=String(s).match(/(\d+)\D+(\d{4})/);return m?(+m[2])*100+(+m[1]):0};return p(a)-p(b)}
+
+/* ---------- render ---------- */
+function render(){
+ const tabs=document.getElementById('tabs');
+ tabs.innerHTML=FILTROS.map(f=>`<button data-t="${f.id}" class="${S.tab==f.id?'on':''}">${f.tag}<span class="chip c0" id="tc_${f.id}"></span></button>`).join('');
+ tabs.querySelectorAll('button').forEach(b=>b.onclick=()=>{S.tab=b.dataset.t;save();render()});
+ document.getElementById('filtros').innerHTML=FILTROS.map(f=>filtroHTML(f)).join('');
+ FILTROS.forEach(f=>bindFiltro(f));
+ hallazgos();firmas();bindFicha(document);pie();
+}
+function filtroHTML(f){
+ const L=S.lay[f.id],ed=S.edit==f.id,es=S.est[f.id]||'';
+ const grp=(t,arr)=>`<tr class="grp"><td colspan="11">${t}</td></tr>`+arr.map(r=>rowHTML(f,r,ed)).join('');
+ const esp=L.filter(r=>r.col=='E'),der=L.filter(r=>r.col=='D'),izq=L.filter(r=>r.col=='I'),mot=L.filter(r=>r.mot);
+ return `<div class="filtro ${S.tab==f.id?'on':''}" id="F_${f.id}">
+ <div class="fhead"><h2>${f.tag} – ${f.nom}</h2><label>Estado del filtro <select data-est="${f.id}">${['','Operando','Detenido','En mantención','Fuera de servicio'].map(o=>`<option ${o==es?'selected':''}>${o}</option>`).join('')}</select></label></div>
+ ${f.pend?`<div class="aviso">⚠ <b>Disposición por confirmar:</b> se cargó la misma numeración de los filtros 621-FL-001/002 (polines 0–36). El 0621-FL-1101 (PF 156/156 M60) puede tener otra cantidad de rodillos de placa; verifíquela en terreno y ajústela con <b>Editar polines</b>.</div>`:''}
+ <div class="ftools noprint"><button onclick="lubTodos('${f.id}')">🛢 Marcar todos lubricados</button><button class="${ed?'on':''}" onclick="S.edit=S.edit=='${f.id}'?null:'${f.id}';render()">✏ Editar polines</button>${ed?`<button onclick="addPolin('${f.id}')">+ Agregar polín</button><button onclick="resetLay('${f.id}')">↺ Disposición original</button>`:''}</div>
+ <div class="res" id="res_${f.id}"></div>
+ <div class="grid2"><div class="mapa" id="map_${f.id}"></div>
+ <div><table class="tp"><thead><tr><th>N°</th><th>Polín</th><th>Lado acople<br>(dB)</th><th>Lado libre<br>(dB)</th><th>Estado</th><th>Δ sem.<br>ant.</th><th>Tendencia</th><th>Lub.</th><th>Grasa<br>(g)</th><th>Cambio</th><th>Observación</th></tr></thead><tbody>
+ ${grp('Polines especiales (posición 3 acople / 2 libre)',esp)}
+ ${grp('Columna polines pares (posición 3 acople / 2 libre)',der)}
+ ${grp('Columna polines impares (posición 1 acople / 4 libre)',izq)}
+ <tr class="grp"><td colspan="11">Motores hidráulicos de polines motrices (dB)</td></tr>
+ ${mot.map(r=>motorHTML(f,r)).join('')}
+ </tbody></table></div></div></div>`;}
+function rowHTML(f,r,ed){const o=rd(f.id,r.n),m=maxR(o),e=estado(m,r.mot),p=prevOf(f.id,r.n),pm=p?maxR(p):null;
+ const d=(m!==null&&pm!==null)?m-pm:null;
+ const pos=r.col=='I'?'P1 · P4':'P3 · P2';
+ const nm=ed?`<input data-ren="${r.n}" value="${esc(r.nom)}"><small><label><input type="checkbox" data-mot="${r.n}" ${r.mot?'checked':''} style="width:auto"> motriz</label> · inst. <input type="date" data-inst="${r.n}" value="${esc(r.inst||'')}" style="width:120px;display:inline"></small>`
+  :`${esc(r.nom)}<small>${pos}${r.inst?`<span class="ins"> · inst. ${r.inst}</span>`:''}</small>`;
+ return `<tr id="row_${f.id}_${r.n}"><td>${r.n}${ed?` <button class="del" onclick="delPolin('${f.id}',${r.n})">✕</button>`:''}</td><td class="nm">${nm}</td>
+ <td><input class="db" inputmode="decimal" data-f="${f.id}" data-n="${r.n}" data-c="a" value="${esc(o.a)}"></td>
+ <td><input class="db" inputmode="decimal" data-f="${f.id}" data-n="${r.n}" data-c="b" value="${esc(o.b)}"></td>
+ <td id="e_${f.id}_${r.n}"><span class="chip c${e}">${EST[e]}</span></td>
+ <td id="d_${f.id}_${r.n}">${dHTML(d)}</td>
+ <td id="s_${f.id}_${r.n}">${spark(f.id,r.n,r.mot)}</td>
+ <td><button class="lub ${o.lub?'on':''}" data-lub="${r.n}" data-f="${f.id}">${o.lub?'✔':'○'}</button></td>
+ <td><input class="g" inputmode="decimal" data-f="${f.id}" data-n="${r.n}" data-c="g" value="${esc(o.g)}"></td>
+ <td><select data-f="${f.id}" data-n="${r.n}" data-c="cb">${['','Rod. acople','Rod. libre','Completo'].map(x=>`<option ${x==o.cb?'selected':''}>${x}</option>`).join('')}</select></td>
+ <td><input class="ob" data-f="${f.id}" data-n="${r.n}" data-c="ob" value="${esc(o.ob)}"></td></tr>`;}
+function motorHTML(f,r){const k='M'+r.n,o=rd(f.id,k),p=prevOf(f.id,k);const m=maxR(o),pm=p?maxR(p):null;const d=(m!==null&&pm!==null)?m-pm:null;
+ return `<tr><td>M${r.n}</td><td class="nm">Motor ${esc(r.nom)}<small>lado acople · lado libre</small></td>
+ <td><input class="db" inputmode="decimal" data-f="${f.id}" data-n="${k}" data-c="a" value="${esc(o.a)}"></td>
+ <td><input class="db" inputmode="decimal" data-f="${f.id}" data-n="${k}" data-c="b" value="${esc(o.b)}"></td>
+ <td><span class="chip c0">Referencia</span></td><td id="d_${f.id}_${k}">${dHTML(d)}</td><td id="s_${f.id}_${k}">${spark(f.id,k,null)}</td><td></td><td></td><td></td>
+ <td><input class="ob" data-f="${f.id}" data-n="${k}" data-c="ob" value="${esc(o.ob)}"></td></tr>`;}
+function dHTML(d){if(d===null)return '';const s=d>0?'+':'';return `<span class="dl ${d>=S.lim.dd?'up':d<0?'dn':''}">${d>=S.lim.dd?'▲':d<0?'▼':''}${s}${d.toFixed(1)}</span>`}
+function spark(fid,n,mot){const ks=Object.keys(S.hist).filter(k=>k!==semKey()).sort(sortSem).slice(-9);
+ const pts=ks.map(k=>S.hist[k]&&S.hist[k][fid]&&S.hist[k][fid][n]||{});pts.push(S.r[fid][n]||{});
+ if(pts.filter(o=>maxR(o)!==null).length<2)return '';
+ const W=96,H=26,mx=Math.max(45,...pts.map(o=>maxR(o)||0));const X=i=>2+i*(W-4)/Math.max(1,pts.length-1),Y=v=>H-2-(v/mx)*(H-4);
+ const line=(c,col)=>{let d='';pts.forEach((o,i)=>{const v=num(o[c]);if(v!==null)d+=(d?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)});return d?`<path d="${d}" fill="none" stroke="${col}" stroke-width="1.5"/>`:''};
+ let lim='';if(mot!==null){const L=S.lim,a=mot?[L.m2,L.m3]:[L.g2,L.g3];lim=`<line x1="0" x2="${W}" y1="${Y(a[0])}" y2="${Y(a[0])}" stroke="#e0a800" stroke-dasharray="2 2"/><line x1="0" x2="${W}" y1="${Y(a[1])}" y2="${Y(a[1])}" stroke="#c62828" stroke-dasharray="2 2"/>`}
+ return `<svg class="sp" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${lim}${line('a','#0b6e74')}${line('b','#e8772e')}</svg>`;}
+
+function mapa(f){const L=S.lay[f.id];const st=r=>estado(maxR(rd(f.id,r.n)),r.mot);
+ const col=['#b0bac0','#1f8a4c','#7cb342','#e0a800','#c62828'];
+ const der=L.filter(r=>r.col=='D'),izq=L.filter(r=>r.col=='I'),esp=L.filter(r=>r.col=='E');
+ const rows=Math.max(der.length,izq.length+1);const H=70+rows*24+70,W=230;
+ const c=(r,x,y,rad)=>`<g onclick="ir('${f.id}',${r.n})"><circle cx="${x}" cy="${y}" r="${rad}" fill="${col[st(r)]}" stroke="${r.mot?'#1d2327':'#fff'}" stroke-width="${r.mot?2.5:1}"/><text x="${x}" y="${y+3.5}" font-size="10" text-anchor="middle" fill="${st(r)==3?'#222':'#fff'}" font-weight="bold" pointer-events="none">${r.n}</text></g>`;
+ let g=`<rect x="70" y="56" width="90" height="${rows*24+6}" fill="#e6ebee" stroke="#9aa6ad"/><text x="115" y="${62+rows*12}" font-size="9" fill="#5f6b73" text-anchor="middle" transform="rotate(-90 115 ${62+rows*12})">PAQUETE DE PLACAS</text>`;
+ g+=`<text x="40" y="52" font-size="8.5" text-anchor="middle" fill="#5f6b73">P1 · P4</text><text x="190" y="52" font-size="8.5" text-anchor="middle" fill="#5f6b73">P3 · P2</text>`;
+ der.forEach((r,i)=>g+=c(r,190,70+i*24,10));izq.forEach((r,i)=>g+=c(r,40,82+i*24,10));
+ const top=esp.filter(r=>r.n<35),bot=esp.filter(r=>r.n>=35);
+ top.forEach((r,i)=>g+=c(r,22+i*37,22,11));
+ top.forEach((r,i)=>g+=`<text x="${22+i*37}" y="42" font-size="6.5" text-anchor="middle" fill="#5f6b73">${esc((r.nom.split(' ')[0]||'').slice(0,9))}</text>`);
+ const yb=70+rows*24+28;bot.forEach((r,i)=>g+=c(r,80+i*70,yb,11)+`<text x="${80+i*70}" y="${yb+22}" font-size="7" text-anchor="middle" fill="#5f6b73">${esc(r.nom.replace(/ N°\d+/,''))}</text>`);
+ document.getElementById('map_'+f.id).innerHTML=`<svg viewBox="0 0 ${W} ${H}">${g}</svg><div class="leg">${[1,2,3,4].map(i=>`<span class="chip c${i}">${EST[i]}</span>`).join('')}<span>● borde negro = motriz · toque un polín para ir a su fila</span></div>`;
+ // resumen
+ const cnt=[0,0,0,0,0];let lub=0;L.forEach(r=>{cnt[st(r)]++;if(rd(f.id,r.n).lub)lub++});
+ document.getElementById('res_'+f.id).innerHTML=[1,2,3,4].map(i=>`<div><b style="color:${col[i]}">${cnt[i]}</b>${EST[i]}</div>`).join('')+`<div><b>${lub}/${L.length}</b>Lubricados</div>`;
+ const w=cnt[4]?4:cnt[3]?3:(cnt[1]+cnt[2]?1:0);const tc=document.getElementById('tc_'+f.id);if(tc){tc.className='chip c'+w;tc.textContent=w?(cnt[4]+cnt[3]?`${cnt[3]+cnt[4]} ⚠`:'OK'):'—'}
+}
+function ir(fid,n){const tr=document.getElementById(`row_${fid}_${n}`);if(!tr)return;tr.scrollIntoView({behavior:'smooth',block:'center'});tr.classList.remove('flash');void tr.offsetWidth;tr.classList.add('flash');const i=tr.querySelector('input.db');if(i)setTimeout(()=>i.focus(),400)}
+
+function bindFiltro(f){const el=document.getElementById('F_'+f.id);
+ el.querySelectorAll('[data-c]').forEach(i=>{i.oninput=i.onchange=()=>{const o=rd(f.id,i.dataset.n);o[i.dataset.c]=i.value;save();if(i.dataset.c=='a'||i.dataset.c=='b')upd(f,i.dataset.n);if(i.dataset.c=='g'&&i.value&&!o.lub){o.lub=true;save();const b=el.querySelector(`[data-lub="${i.dataset.n}"]`);if(b){b.classList.add('on');b.textContent='✔'}mapa(f)}}});
+ el.querySelectorAll('[data-lub]').forEach(b=>b.onclick=()=>{const o=rd(f.id,b.dataset.lub);o.lub=!o.lub;b.classList.toggle('on',o.lub);b.textContent=o.lub?'✔':'○';save();mapa(f);hallazgos()});
+ el.querySelectorAll('[data-est]').forEach(s=>s.onchange=()=>{S.est[f.id]=s.value;save()});
+ el.querySelectorAll('[data-ren]').forEach(i=>i.onchange=()=>{const r=S.lay[f.id].find(x=>x.n==i.dataset.ren);r.nom=i.value;save();mapa(f)});
+ el.querySelectorAll('[data-mot]').forEach(i=>i.onchange=()=>{const r=S.lay[f.id].find(x=>x.n==i.dataset.mot);r.mot=i.checked;save();render()});
+ el.querySelectorAll('[data-inst]').forEach(i=>i.onchange=()=>{const r=S.lay[f.id].find(x=>x.n==i.dataset.inst);r.inst=i.value;save()});
+ mapa(f);}
+function upd(f,n){const isM=String(n).startsWith('M');const o=rd(f.id,n),m=maxR(o),p=prevOf(f.id,n),pm=p?maxR(p):null;
+ const r=isM?null:S.lay[f.id].find(x=>x.n==n);
+ if(!isM){const e=estado(m,r.mot);document.getElementById(`e_${f.id}_${n}`).innerHTML=`<span class="chip c${e}">${EST[e]}</span>`}
+ document.getElementById(`d_${f.id}_${n}`).innerHTML=dHTML((m!==null&&pm!==null)?m-pm:null);
+ document.getElementById(`s_${f.id}_${n}`).innerHTML=spark(f.id,n,isM?null:r.mot);
+ mapa(f);hallazgos();}
+function lubTodos(fid){const g=prompt('Gramos de grasa por polín (dejar vacío si no se registra):','10');if(g===null)return;S.lay[fid].forEach(r=>{const o=rd(fid,r.n);o.lub=true;if(g!=='')o.g=g});save();render()}
+function addPolin(fid){const L=S.lay[fid];const n=Math.max(...L.map(r=>r.n))+1;const lado=confirm('¿El nuevo polín va en la columna de impares (posición 1·4)?\nAceptar = impares (P1·P4) · Cancelar = pares/especiales (P3·P2)')?'I':'D';L.push({n,nom:`Polín N°${n}`,lado,mot:false,col:lado});save();render()}
+function delPolin(fid,n){if(!confirm(`¿Eliminar el polín N°${n} de ${FILTROS.find(f=>f.id==fid).tag}?`))return;S.lay[fid]=S.lay[fid].filter(r=>r.n!=n);delete S.r[fid][n];save();render()}
+function resetLay(fid){if(!confirm('¿Volver a la disposición original 0–36? Se mantienen las lecturas.'))return;S.lay[fid]=layoutDef(fid);save();render()}
+
+function hallazgos(){const out=[];FILTROS.forEach(f=>{if(S.est[f.id]&&S.est[f.id]!='Operando'&&!Object.keys(S.r[f.id]).length)return;
+ S.lay[f.id].forEach(r=>{const o=rd(f.id,r.n),m=maxR(o),e=estado(m,r.mot),p=prevOf(f.id,r.n),pm=p?maxR(p):null,d=(m!==null&&pm!==null)?m-pm:null;const mot=[];
+  if(e>=3)mot.push(EST[e]);if(d!==null&&d>=S.lim.dd)mot.push(`Aumento ${d.toFixed(1)} dB`);if(m!==null&&!o.lub)mot.push('Sin lubricar');if(o.cb)mot.push('Cambio: '+o.cb);
+  if(mot.length)out.push(`<tr class="hf_${f.id}"><td>${f.tag}</td><td>${esc(r.nom)}</td><td style="text-align:center">${m??''}</td><td style="text-align:center">${dHTML(d)}</td><td><span class="chip c${e}">${EST[e]}</span></td><td>${mot.join(' · ')}</td></tr>`)})});
+ document.getElementById('hall').innerHTML=out.join('')||'<tr><td colspan="6" style="text-align:center;color:#5f6b73">Sin hallazgos registrados</td></tr>';
+ let tot=0,done=0;FILTROS.forEach(f=>S.lay[f.id].forEach(r=>{tot++;if(maxR(rd(f.id,r.n))!==null)done++}));
+ document.getElementById('prog').textContent=`${semKey()} · ${done}/${tot} polines medidos · guardado automático en este dispositivo`;}
+
+function firmas(){const F=['Ejecutado por (Lubricador / Inspector)','Revisado por (Confiabilidad)','Jefe de Turno Mecánico'];
+ const f=document.getElementById('firmas');f.innerHTML=F.map((n,i)=>`<div><b>${n}</b><input data-k="fn${i}" placeholder="Nombre"><div class="fl"><canvas id="sg${i}" width="600" height="84"></canvas></div><div class="lbl"><span>Firma</span><a onclick="borraFirma(${i})">borrar</a></div><input type="date" data-k="fd${i}"></div>`).join('');
+ F.forEach((_,i)=>pad(i));}
+function pad(i){const cv=document.getElementById('sg'+i),cx=cv.getContext('2d');cx.lineWidth=3;cx.lineCap='round';cx.strokeStyle='#0a2a6b';
+ if(S.sig[i]){const im=new Image();im.onload=()=>cx.drawImage(im,0,0);im.src=S.sig[i]}
+ let dn=false;const p=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)*cv.width/r.width,(e.clientY-r.top)*cv.height/r.height]};
+ cv.onpointerdown=e=>{dn=true;cv.setPointerCapture(e.pointerId);const[x,y]=p(e);cx.beginPath();cx.moveTo(x,y)};
+ cv.onpointermove=e=>{if(!dn)return;const[x,y]=p(e);cx.lineTo(x,y);cx.stroke()};
+ cv.onpointerup=cv.onpointercancel=()=>{if(!dn)return;dn=false;S.sig[i]=cv.toDataURL();save()};}
+function borraFirma(i){const cv=document.getElementById('sg'+i);cv.getContext('2d').clearRect(0,0,cv.width,cv.height);delete S.sig[i];save()}
+
+function bindFicha(root){root.querySelectorAll('[data-k]').forEach(e=>{const k=e.dataset.k;if(S.f[k]!==undefined)e.value=S.f[k];e.oninput=()=>{S.f[k]=e.value;save();pie()};e.onchange=()=>{S.f[k]=e.value;save();pie();if(k=='semana')render()}});
+ root.querySelectorAll('[data-lim]').forEach(e=>{const k=e.dataset.lim;e.value=S.lim[k];e.onchange=()=>{const v=num(e.value);if(v!==null){S.lim[k]=v;save();render()}}});}
+function pie(){document.getElementById('fpie').textContent=`${S.f.semana||''} · ${S.f.fecha||''}`}
+
+function snapshot(){const o={};FILTROS.forEach(f=>{o[f.id]={};Object.entries(S.r[f.id]).forEach(([n,v])=>{if(v.a!==undefined||v.b!==undefined||v.lub||v.cb)o[f.id][n]={a:v.a,b:v.b,lub:v.lub,cb:v.cb}})});return o}
+function cerrarSemana(){const k=semKey();if(!confirm(`¿Cerrar la ${k}?\n\nSe guardan las lecturas en el historial (tendencias y Δ) y la planilla queda en blanco para la próxima semana.\nImprima o guarde el PDF ANTES de cerrar.`))return;
+ S.hist[k]=snapshot();FILTROS.forEach(f=>S.r[f.id]={});S.f.obs='';S.sig={};S.est={};['fn0','fn1','fn2','fd0','fd1','fd2','ot','hora'].forEach(x=>delete S.f[x]);
+ const d=new Date();d.setDate(d.getDate()+7);const [y,w]=isoWeek(d);S.f.semana=`S${String(w).padStart(2,'0')}_${y}`;S.f.fecha='';save();render();alert(`Semana ${k} guardada en el historial (${Object.keys(S.hist).length} semanas).`)}
+function marcaVacios(){document.querySelectorAll('input[type=date],input[type=time]').forEach(i=>i.classList.toggle('vacio',!i.value))}
+window.addEventListener('beforeprint',marcaVacios);
+function prepInf(){const v=S.inf||'all';const sel=FILTROS.filter(f=>v=='all'||v==f.id);
+ let first=true;FILTROS.forEach(f=>{const el=document.getElementById('F_'+f.id);const on=sel.includes(f);el.classList.toggle('noinf',!on);el.classList.toggle('pb',on&&!first);if(on)first=false;
+  document.querySelectorAll('.hf_'+f.id).forEach(tr=>tr.classList.toggle('noinf',!on))});
+ document.getElementById('subt').textContent=sel.map(f=>f.tag).join(' · ');
+ document.getElementById('fpie').textContent=`${sel.map(f=>f.tag).join(' / ')} · ${S.f.semana||''} · ${S.f.fecha||''}`;}
+function finInf(){document.querySelectorAll('.noinf').forEach(e=>e.classList.remove('noinf'));document.getElementById('subt').textContent=FILTROS.map(f=>f.tag).join(' · ');pie()}
+window.addEventListener('beforeprint',prepInf);window.addEventListener('afterprint',finInf);
+function imprimir(){marcaVacios();prepInf();window.print()}
+function selInf(){const s=document.getElementById('selInf');s.innerHTML=`<option value="all">Informe: los 3 filtros</option>`+FILTROS.map(f=>`<option value="${f.id}">Informe: solo ${f.tag}</option>`).join('');s.value=S.inf||'all';s.onchange=()=>{S.inf=s.value;save()}}
+function exportar(){const b=new Blob([JSON.stringify(S)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`Respaldo_datos_polines_${semKey()}.json`;a.click();
+ try{alert('Se descargó un RESPALDO DE DATOS (.json), con la semana en curso y todo el historial.\n\nNo es el informe: sirve para cargarlo en este formulario con «Cargar respaldo».\nPara el informe use «Informe PDF / Imprimir» → «Guardar como PDF».')}catch(e){}}
+function importar(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const J=JSON.parse(r.result);
+ const merge=confirm('Aceptar = reemplazar todo por el respaldo.\nCancelar = solo agregar su historial al de este equipo.');
+ if(merge)S=Object.assign({f:{},lim:{...LIMDEF},lay:{},r:{},hist:{},est:{},sig:{},tab:'f1'},J);else{S.hist=Object.assign({},J.hist||{},S.hist)}
+ load2();save();render()}catch(e){alert('Archivo no válido')}};r.readAsText(f);inp.value=''}
+function load2(){S.lim=Object.assign({...LIMDEF},S.lim||{});FILTROS.forEach(f=>{if(!S.lay[f.id])S.lay[f.id]=layoutDef(f.id);if(!S.r[f.id])S.r[f.id]={}})}
+function init(){load();
+ if(!S.f.semana){const [y,w]=isoWeek(new Date());S.f.semana=`S${String(w).padStart(2,'0')}_${y}`}
+ if(!S.f.fecha){const d=new Date();S.f.fecha=new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)}
+ save();selInf();render();}
+init();
+</script>
+
+
+</body></html>
